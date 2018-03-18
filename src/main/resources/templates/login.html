@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="${title}"></title>
+    <script th:src="@{/js/jquery-2.0.3.min.js}"></script>
+    <script th:src="@{/js/jquery.validate.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/198zone.css}"/>
+    <link rel="stylesheet" th:href="@{/css/register.css}"/>
+</head>
+<body>
+<!-- 代码 开始 -->
+<div id="login">
+    <div class="wrapper">
+        <div class="login">
+            <form class="container offset1 loginform" name="Table" id="Table" method="post" th:action="@{/login}" action="/login">
+                <div id="owl-login">
+                    <div class="hand"></div>
+                    <div class="hand hand-r"></div>
+                    <div class="arms">
+                        <div class="arm"></div>
+                        <div class="arm arm-r"></div>
+                    </div>
+                </div>
+                <div class="pad">
+                    <div class="control-group">
+                        <div class="controls">
+                            <label for="username" class="control-label fa fa-user"></label>
+                            <input id="username" type="text" name="username" placeholder="用户名" tabindex="1" autofocus="autofocus" class="form-control input-medium"/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">
+                            <label for="password" class="control-label fa fa-cloud"></label>
+                            <input id="password" type="password" name="password" placeholder="密码" tabindex="2" class="form-control input-medium"/>
+                        </div>
+                    </div>
+                    <div style="width: 50%;float: left;">
+                        <div class="controls">
+                            <label for="code" class="control-label fa fa-asterisk"></label>
+                            <input type="text" style="width:170px;float:left" name="code" id="code" placeholder="验证码"/>
+                        </div>
+                    </div>
+                    <div style="width: 50%;float: left">
+                        <img src="/kaptcha.jpg" id="kaptcha" name="kaptcha"
+                             style="margin-left:35px;width:69%"/>
+                    </div>
+                </div>
+                <p class="help-block" th:if="${param.error}"
+                   style="color: red;font-size: 15px;margin-left:33%">
+                    用户名或密码错误！
+                </p>
+                <div class="form-actions">
+                    <a href="#" tabindex="6" id="register" name="register" class="btn btn-link text-muted">注册</a>
+                    <button id="ok" name="ok" type="button" class="btn btn-primary">登录</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="pop_box" style="display: none">
+        <div class="bg"></div>
+        <div class="contentP">
+            <div class="PTit">
+                <h3>注册</h3>
+                <a class="closepop">x</a>
+            </div>
+            <div class="textmian">
+                <form id="reg">
+                    <table class="normTbe" cellspacing="0" cellpadding="0" border="0">
+                        <tr>
+                            <td>
+                                <p>用户名</p>
+                            </td>
+                            <td>
+                                <input type="text" id="regname" name="regname"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>密码</p>
+                            </td>
+                            <td>
+                                <input type="text" id="regpassword1" name="regpassword1"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>重复密码</p>
+                            </td>
+                            <td>
+                                <input type="text" id="regpassword2" name="regpassword2"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>兴趣</p>
+                            </td>
+                            <td>
+                                <input style="width: auto" type="checkbox" name="hobby" value="tiyu"/>体育
+                                <input style="width: auto" type="checkbox" name="hobby" value="renwen"/>人文
+                                <input style="width: auto" type="checkbox" name="hobby" value="yishu"/>艺术
+                                <input style="width: auto" type="checkbox" name="hobby" value="lvyou"/>旅游
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="btn_a1" style="margin-left:180px">
+                        <input type="submit" class="dtadd" value="马上注册"/>
+                        <button type="button" class="closepop">取消注册</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script th:inline="javascript">
+        $(function() {
+            $('#login #password').focus(function() {
+                $('#owl-login').addClass('password');
+            }).blur(function() {
+                $('#owl-login').removeClass('password');
+            });
+        });
+
+        $("#kaptcha").click(function () {
+            refreshKaptcha();
+        });
+
+        $("#ok").click(function () {
+            $.ajax({
+                type:"POST",
+                url:"/vertifyKaptcha",
+                dataType: "json",
+                data:
+                    {
+                        code:$("#code").val()
+                    },
+                success: function (data) {
+                    if (data['res'] == "success") {
+                        //TODO 提交表单
+                        $("#Table").submit();
+                    } else {
+                        //TODO 刷新页面
+                        alert("验证码输入错误！");
+                        $("#Table")[0].reset();
+                        refreshKaptcha();
+                    }
+                },
+                error: function (data) {
+                }
+            });
+        });
+
+        function refreshKaptcha() {
+            $("#kaptcha").attr("src","/kaptcha.jpg?t=" + Math.random());
+        }
+    </script>
+    <script th:src="@{/js/register.js}"></script>
+</div>
+<!-- 代码 结束 -->
+
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <object th:replace="common::head" th:remove="tag"></object>
+</head>
+<body data-material-theme="bluegrey" class="material-design">
+<div class="material-design-layout">
+    <div class="m-card bit-3 off-screen" data-type="main-modal" data-background-color="#03a9f4"
+         data-curtain="true" data-depth="4" id="share">
+        <header style="background-color: #7f8c8d; background-size: auto;">
+            <span class="card-header-text" id="shareName">
+
+            </span>
+        </header>
+        <section class="inner__card">
+            <h3 class="title">
+                选择分享方式
+            </h3>
+            <br/>
+            <div style="width: 50%;float: left">
+                <input type="radio" class="m-input-radio-green" value="0" name="radio" data-label="公开分享" checked="checked"/>
+            </div>
+            <div style="width: 50%;float: left">
+                <input type="radio" class="m-input-radio-blue"  value="1" name="radio" data-label="私密分享"/>
+            </div>
+            <input type="hidden" id="sharePath"/>
+            <a role="button" onclick="generateShare()" class="btn btn-primary radius" id="gen" name="gen">生成公开分享</a>
+            <p type="text" id="sPath" name="sPath"></p>
+        </section>
+        <footer>
+            <a href="#" data-btn-type="toggle" class="btn btn-default radius" role="button">关闭</a>
+        </footer>
+    </div>
+    <div th:replace="common::about"></div>
+    <div th:replace="common::fileinput"></div>
+    <div th:replace="common::navigation"></div>
+    <div th:replace="common::siderleft"></div>
+    <div th:replace="common::siderright"></div>
+    <div class="material-container">
+        <div class="panel bit-1">
+            <div class="panel-body" id="body1">
+                <a href="#" class="btn btn-default radius" role="button" onclick="Return()">返回上层</a>
+            </div>
+            <div class="panel-body" id="body2">
+
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/js/home/home.js}"></script>
+<script th:src="@{/js/user/myFile.js}"></script>
+</body>
+</html>

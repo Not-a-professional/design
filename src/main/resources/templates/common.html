@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:fragment="head">
+    <meta charset="UTF-8"/>
+    <title th:text="${title}"></title>
+    <script th:src="@{/js/jquery-2.0.3.min.js}"></script>
+    <script th:src="@{/framaterial/scripts/framaterial.min.js}"></script>
+    <script th:src="@{/js/bootstrap-3.3.7-dist/js/bootstrap.min.js}"></script>
+    <script th:src="@{/bootstrap-fileinput-master/js/fileinput.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/framaterial/styles/framaterial.min.css}"/>
+    <link rel="stylesheet" th:href="@{/js/bootstrap-3.3.7-dist/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/bootstrap-fileinput-master/css/fileinput.min.css}"/>
+</head>
+<body data-material-theme="bluegrey" class="material-design">
+<div class="material-design-layout">
+    <div class="material-navigation-left-bluegrey-fixed" th:fragment="navigation">
+        <div class="navigation-inner">
+            <div class="navigation-content">
+                <a class="icon-menu" onclick="getcong()" id="clickcong" name="clickcong">
+                    <span class="glyphicon glyphicon-menu-hamburger"></span>
+                </a>
+                <a id="username"></a>
+                <input type="hidden" th:value="${Username}" name="name" id="name"/>
+                <input type="hidden" th:value="${Auth}" name="auth" id="auth"/>
+            </div>
+            <div class="navigation-side">
+                <a class="icon-menu" onclick="getusr()" id="clickusr" name="clickusr">
+                    <span class="glyphicon glyphicon-user"></span>
+                    好友列表
+                </a>
+            </div>
+        </div>
+    </div>
+    <nav class="material-sidebar-left-out-bluegrey" th:fragment="siderleft"
+         data-state="open" id="cong" name="cong" style="overflow: auto">
+        <header data-image-url="/img/1.jpg">
+        </header>
+        <ul>
+            <li>
+                <a th:href="@{/home}" th:class="material-btn-flat-white">
+                    <span class="glyphicon glyphicon-home"></span>
+                    朋友圈热门
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/user/file}" th:class="material-btn-flat-white">
+                    <span class="glyphicon glyphicon-file"></span>
+                    我的文件
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/user/share}" th:class="material-btn-flat-white">
+                    <span class="glyphicon glyphicon-folder-open"></span>
+                    我的分享
+                </a>
+            </li>
+            <li>
+                <a href="#fileinput" data-btn-type="toggle" class="material-btn-flat-white">
+                    <span class="glyphicon glyphicon-upload"></span>
+                    上传文件
+                </a>
+            </li>
+            <li sec:authorize="hasAuthority('ROLE_ADMIN')">
+                <a th:href="@{/admin/ticketShare}" th:class="material-btn-flat-white">
+                    <span class="glyphicon glyphicon-tasks"></span>
+                    分享申请
+                </a>
+            </li>
+            <li sec:authorize="hasAuthority('ROLE_ADMIN')">
+                <a th:href="@{/admin/ticketVolume}" th:class="material-btn-flat-white">
+                    <span class="glyphicon glyphicon-bookmark"></span>
+                    容量申请
+                </a>
+            </li>
+            <li>
+                <a href="#about" data-btn-type="toggle" class="material-btn-flat-white">
+                    <span class="glyphicon glyphicon-copyright-mark"></span>
+                    关于本站
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/logout}" th:class="material-btn-flat-white">
+                    <span class="glyphicon glyphicon-off"></span>
+                    退出登录
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <nav class="material-sidebar-right-out-bluegrey" th:fragment="siderright"
+         data-state="closed" id="usr" name="usr" style="overflow: auto">
+        <div style="height: 60px;">
+
+        </div>
+        <ul id="userlist" name="userlist">
+
+        </ul>
+    </nav>
+    <div class="m-card bit-3 off-screen" data-type="main-modal" data-background-color="#03a9f4"
+         data-curtain="true" data-depth="4" id="about" th:fragment="about">
+        <header style="background-color: #7f8c8d; background-size: auto;">
+            <span class="card-header-text">关于本站</span>
+        </header>
+        <section class="inner__card">
+            <h2 class="title">
+                自由网盘系统
+            </h2>
+            <p>2018年上海大学计算机科学与工程学院毕业设计课题</p>
+            <ul>
+                <li>时间 : <code>2018/4/</code></li>
+                <li>作者 : <code>李伟</code></li>
+                <li>所用技术 : <code>Spring Boot</code></li>
+            </ul>
+        </section>
+        <footer>
+            <a href="#" data-btn-type="toggle" class="btn btn-default radius" role="button">关闭</a>
+        </footer>
+    </div>
+
+    <div class="m-card bit-3 off-screen" data-type="main-modal" data-background-color="#03a9f4"
+         data-curtain="true" data-depth="4" id="fileinput" th:fragment="fileinput">
+        <header style="display: none;">
+            <span class="card-header-text">关于本站</span>
+        </header>
+        <section class="inner__card">
+            <h2 class="title">
+                上传文件
+            </h2>
+            <div class="form-group">
+                <label class="control-label">选择保存路径：</label>
+                <select multiple="multiple" class="form-control" id="path" name="path">
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">选择文件：</label>
+                <input type="file" name="uploadFile" id="uploadFile" multiple="multiple" class="file-loading" />
+            </div>
+        </section>
+        <footer>
+            <a href="#" data-btn-type="toggle" class="btn btn-default radius" role="button">关闭</a>
+        </footer>
+    </div>
+</div>
+<script th:src="@{/js/home/home.js}"></script>
+</body>
+</html>
