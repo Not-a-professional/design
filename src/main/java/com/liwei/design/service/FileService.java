@@ -1,8 +1,10 @@
 package com.liwei.design.service;
 
+import com.liwei.design.model.Share;
 import com.liwei.design.model.ticketShare;
 import com.liwei.design.repo.ShareRepository;
 import com.liwei.design.repo.ticketShareRepository;
+import com.liwei.design.tool.fileTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextImpl;
@@ -27,8 +29,9 @@ public class FileService {
     private ticketShareRepository ts;
 
     private final static String root = "/Users/liwei/Desktop/design";
+    fileTool fileTool = new fileTool();
 
-    public void downloadFile(HttpServletResponse response, String path)
+    public void downloadFile(HttpServletResponse response, String path, String other)
             throws UnsupportedEncodingException {
         String[] temp = path.split("/");
         String filename = temp[temp.length - 1];
@@ -53,6 +56,11 @@ public class FileService {
             os.close();
         }catch (Exception e){
             System.err.println(e.getLocalizedMessage());
+        }
+        if (other.equals("other")) {
+            Share share = sr.findOne(path);
+            share.setDownload(share.getDownload() + 1);
+            sr.saveAndFlush(share);
         }
     }
 
@@ -174,7 +182,7 @@ public class FileService {
         String username = authentication.getName();
         File file = new File(root + "/" + username);
         List<String> dirList = new ArrayList<String>();
-        getAllDir(dirList, file);
+        fileTool.getAllDir(dirList, file);
         return dirList;
     }
 
@@ -210,7 +218,7 @@ public class FileService {
 
     public Map<String, String> sSharePath(String url, HttpServletRequest request) {
         Map<String, String> res = new HashMap<String, String>();
-        if (isExist(url)) {
+        if (fileTool.isExist(url)) {
             res.put("res", "fail");
             return res;
         }
@@ -223,7 +231,7 @@ public class FileService {
         }
 
         String secret = sb.toString();
-        String sPath = MD5(url).substring(8, 24);
+        String sPath = fileTool.MD5(url).substring(8, 24);
         SecurityContextImpl securityContextImpl = (SecurityContextImpl) request
                 .getSession().getAttribute("SPRING_SECURITY_CONTEXT");
         Authentication authentication = securityContextImpl.getAuthentication();
@@ -242,7 +250,7 @@ public class FileService {
     }
 
     public String sharePath(String url, HttpServletRequest request) {
-        if (isExist(url)) {
+        if (fileTool.isExist(url)) {
             return "fail";
         }
         SecurityContextImpl securityContextImpl = (SecurityContextImpl) request
@@ -272,57 +280,21 @@ public class FileService {
         }
     }
 
-    private void getAllDir(List<String> dirList, File file) {
-        File[] files = file.listFiles();
-        if (files != null) {
-            for (File temp : files) {
-                if (temp.isDirectory()) {
-                    dirList.add(temp.getAbsolutePath());
-                    getAllDir(dirList, temp);
-                }
-            }
+    //TODO 下载文件夹
+    public Map<String, String> downloadFolder(String url, HttpServletResponse response, String other)
+            throws IOException {
+        Map<String, String> res = new HashMap<String, String>();
+        response.setContentType("application/zip");
+        String[] temp = url.split("/");
+        String zipName = temp[temp.length - 1];
+        response.setHeader("Content-Disposition", "attachment; filename="+ zipName +".zip");
+        fileTool.toZip(root + url, response.getOutputStream(), true);
+        if (other.equals("other")) {
+            Share share = sr.findOne(url);
+            share.setDownload(share.getDownload() + 1);
+            sr.saveAndFlush(share);
         }
-    }
-
-    /**
-     * 对字符串md5加密(大写+数字)
-     *
-     * @param s 传入要加密的字符串
-     * @return  MD5加密后的字符串
-     */
-    private static String MD5(String s) {
-        char hexDigits[]={'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
-
-        try {
-            byte[] btInput = s.getBytes();
-            // 获得MD5摘要算法的 MessageDigest 对象
-            MessageDigest mdInst = MessageDigest.getInstance("MD5");
-            // 使用指定的字节更新摘要
-            mdInst.update(btInput);
-            // 获得密文
-            byte[] md = mdInst.digest();
-            // 把密文转换成十六进制的字符串形式
-            int j = md.length;
-            char str[] = new char[j * 2];
-            int k = 0;
-            for (int i = 0; i < j; i++) {
-                byte byte0 = md[i];
-                str[k++] = hexDigits[byte0 >>> 4 & 0xf];
-                str[k++] = hexDigits[byte0 & 0xf];
-            }
-            return new String(str);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    //判断分享是否已经存在
-    private Boolean isExist(String url) {
-        if (sr.findOne(url) != null || ts.findOneByPath(url) != null) {
-            return true;
-        }
-        return false;
+        return res;
     }
 
 }

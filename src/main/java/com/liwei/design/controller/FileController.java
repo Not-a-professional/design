@@ -60,9 +60,9 @@ public class FileController {
     }
 
     @RequestMapping("/download")
-    public void responseDownload(HttpServletResponse response, @RequestParam String path)
+    public void responseDownload(HttpServletResponse response, @RequestParam String path, String other)
             throws UnsupportedEncodingException {
-        fileService.downloadFile(response, path);
+        fileService.downloadFile(response, path, other);
     }
 
     @RequestMapping("/delete")
@@ -111,5 +111,12 @@ public class FileController {
     @ResponseBody
     public Map<String, String> createDir(String url) {
         return fileService.createDir(url);
+    }
+
+    @RequestMapping("/downloadZip")
+    @ResponseBody
+    public Map<String, String> downloadFolder(String url, String other, HttpServletResponse response)
+            throws IOException {
+        return fileService.downloadFolder(url, response, other);
     }
 }

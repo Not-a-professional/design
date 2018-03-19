@@ -36,4 +36,11 @@ public class UserController {
     public List<String> getFirend(HttpServletRequest request) {
         return us.getFriend(request);
     }
+
+    @RequestMapping("/editor")
+    public ModelAndView editor() {
+        ModelAndView editor = new ModelAndView("user/editor");
+        editor.addObject("title", "云笔记");
+        return editor;
+    }
 }

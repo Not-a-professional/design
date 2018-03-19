@@ -1,5 +1,11 @@
 $(function() {
     $("#reg").validate({
+        errorPlacement : function(error, element) {
+            if (element.is(":checkbox")) {
+                error.appendTo(element.parent().parent());
+            }
+        },
+
         rules:{
             regname:{
                 required:true,
@@ -14,6 +20,9 @@ $(function() {
             regpassword2:{
                 required:true,
                 equalTo:"#regpassword1"
+            },
+            hobby:{
+                required:true
             }
         },
         messages:{
@@ -27,6 +36,9 @@ $(function() {
             regpassword2:{
                 required:"密码不能为空！",
                 equalTo:"密码不一致！"
+            },
+            hobby:{
+                required:"至少选择一个兴趣！"
             }
         },
         submitHandler:function () {

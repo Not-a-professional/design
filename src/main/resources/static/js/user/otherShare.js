@@ -35,7 +35,7 @@ function fillList(data) {
         var pNode2 = document.createElement("h5");
         var aNode1 = document.createElement("a");
         aNode1.setAttribute("role", "button");
-        aNode1.setAttribute("onclick", "Download(\"" + data[i] + "\")");
+        aNode1.setAttribute("onclick", "OtherDownload(\"" + data[i] + "\")");
         var aText1 = document.createTextNode("下载 ");
         aNode1.appendChild(aText1);
         pNode2.appendChild(aNode1);
@@ -45,6 +45,9 @@ function fillList(data) {
             imgNode.setAttribute("src", "http://localhost:8080/file/getView" + data[i]);
         } else if (suffix == "mp4") {
             imgNode.setAttribute("src", "http://localhost:8080/img/Youtube.png");
+        } else {
+            imgNode.setAttribute("src", "http://localhost:8080/img/folder-videos.png");
+            aNode1.setAttribute("onclick", "OtherDownloadZip(\"" + data[i] + "\")");
         }
 
         captionNode.appendChild(inputNode1);
@@ -58,6 +61,10 @@ function fillList(data) {
 }
 
 // 下载并为下载的记录download属性加一
-function Download(e) {
-    window.location.href = "http://localhost:8080/share/download?path=" + e;
+function OtherDownload(e) {
+    window.location.href = "http://localhost:8080/share/download?path=" + e + "&other=other";
+}
+
+function OtherDownloadZip(e) {
+    window.location.href = "http://localhost:8080/file/downloadZip?url=" + e + "&other=other";
 }

@@ -106,6 +106,9 @@ function fillList(data) {
         } else {
             imgNode.setAttribute("src", "http://localhost:8080/img/folder-videos.png");
             imgNode.setAttribute("onclick", "Enter(\"" + data[i].substring(27) + "\")");
+            aNode1.setAttribute("onclick", "DownloadZip(\"" + data[i].substring(27) + "\")");
+            pNode2.appendChild(aNode1);
+            pNode2.appendChild(aNode2);
             pNode2.appendChild(aNode3);
         }
         captionNode.appendChild(inputNode1);
@@ -120,6 +123,10 @@ function fillList(data) {
 
 function Download(e) {
     window.location.href = "http://localhost:8080/file/download?path=" + e;
+}
+
+function DownloadZip(e) {
+    window.location.href = "http://localhost:8080/file/downloadZip?url=" + e;
 }
 
 function Delete(e) {
