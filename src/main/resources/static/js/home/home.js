@@ -45,7 +45,11 @@ $(function init() {
             return {"path": path};
         }
     }).on("fileuploaded", function (event, data, previewId, index) {
-
+        if (data['res'] == "fail") {
+            if(data['msg'] != null) {
+                alert(data['msg']);
+            }
+        }
     });
 });
 

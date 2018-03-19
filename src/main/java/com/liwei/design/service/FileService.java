@@ -1,6 +1,7 @@
 package com.liwei.design.service;
 
 import com.liwei.design.model.Share;
+import com.liwei.design.model.User;
 import com.liwei.design.model.ticketShare;
 import com.liwei.design.repo.ShareRepository;
 import com.liwei.design.repo.UserRepository;
@@ -139,12 +140,27 @@ public class FileService {
         }
     }
 
-    public Map<String, Object> uploadFile(MultipartFile uploadFile, String path) throws IOException  {
+    public Map<String, Object> uploadFile(MultipartFile uploadFile, String path, HttpServletRequest request)
+            throws IOException  {
         Map<String, Object> res = new HashMap<String, Object>();
         String filename = uploadFile.getOriginalFilename();
         if (!uploadFile.isEmpty()) {
             //TODO 为user表设置存储容量字段，判断上传的文件是否会超过限制容量
             long sizeMB = uploadFile.getSize()/1024/1024;//getSize()获得字节大小
+            SecurityContextImpl securityContextImpl = (SecurityContextImpl) request
+                    .getSession().getAttribute("SPRING_SECURITY_CONTEXT");
+            Authentication authentication = securityContextImpl.getAuthentication();
+            String username = authentication.getName();
+            User user = ur.findOne(username);
+            if (user.getUsedVolume() + sizeMB > user.getVolume()) {
+                res.put("res", "fail");
+                res.put("msg", "存储空间不足，请申请提高存储空间！");
+                return res;
+            } else {
+                user.setUsedVolume(user.getUsedVolume() + sizeMB);
+                ur.saveAndFlush(user);
+            }
+
             InputStream in = null;
             OutputStream out = null;
             try {

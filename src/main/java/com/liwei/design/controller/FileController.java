@@ -75,10 +75,10 @@ public class FileController {
 
     @RequestMapping("/upload")
     @ResponseBody
-    public Map<String, Object> uploadFile(String path,
+    public Map<String, Object> uploadFile(String path, HttpServletRequest request,
                                           @RequestParam("uploadFile") MultipartFile uploadFile)
             throws IOException {
-        return fileService.uploadFile(uploadFile, path);
+        return fileService.uploadFile(uploadFile, path, request);
     }
 
     @RequestMapping("/getShareList")

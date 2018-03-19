@@ -52,6 +52,10 @@ public class User implements Serializable, UserDetails {
     @Setter
     private long volume;
 
+    @Getter
+    @Setter
+    private long usedVolume;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> auths = new ArrayList<>();
