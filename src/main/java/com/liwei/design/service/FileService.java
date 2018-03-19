@@ -3,6 +3,7 @@ package com.liwei.design.service;
 import com.liwei.design.model.Share;
 import com.liwei.design.model.ticketShare;
 import com.liwei.design.repo.ShareRepository;
+import com.liwei.design.repo.UserRepository;
 import com.liwei.design.repo.ticketShareRepository;
 import com.liwei.design.tool.fileTool;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,8 @@ public class FileService {
     private ShareRepository sr;
     @Autowired
     private ticketShareRepository ts;
+    @Autowired
+    private UserRepository ur;
 
     private final static String root = "/Users/liwei/Desktop/design";
     fileTool fileTool = new fileTool();
@@ -140,6 +143,8 @@ public class FileService {
         Map<String, Object> res = new HashMap<String, Object>();
         String filename = uploadFile.getOriginalFilename();
         if (!uploadFile.isEmpty()) {
+            //TODO 为user表设置存储容量字段，判断上传的文件是否会超过限制容量
+            long sizeMB = uploadFile.getSize()/1024/1024;//getSize()获得字节大小
             InputStream in = null;
             OutputStream out = null;
             try {
