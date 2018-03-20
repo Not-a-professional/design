@@ -148,14 +148,12 @@ function Delete(e) {
     });
 }
 
-//TODO 进入下层文件夹
 function Enter(e) {
     $("#body2").empty();
     path = e;
     getList(e);
 }
 
-//TODO 返回上层文件夹
 function Return() {
     if (path == rootPath) {
 

@@ -56,7 +56,6 @@ public class AdminController {
         return map;
     }
 
-    //TODO 同意分享
     @RequestMapping("/shareAuth")
     @ResponseBody
     public Map<String, String> auth(String id) {
@@ -77,7 +76,6 @@ public class AdminController {
         return map;
     }
 
-    //TODO 不同意分享
     @RequestMapping("/shareUnauth")
     @ResponseBody
     public Map<String, String> unAuth(String id) {

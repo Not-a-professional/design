@@ -145,7 +145,7 @@ public class FileService {
         Map<String, Object> res = new HashMap<String, Object>();
         String filename = uploadFile.getOriginalFilename();
         if (!uploadFile.isEmpty()) {
-            //TODO 为user表设置存储容量字段，判断上传的文件是否会超过限制容量
+            // 为user表设置存储容量字段，判断上传的文件是否会超过限制容量
             long sizeMB = uploadFile.getSize()/1024/1024;//getSize()获得字节大小
             SecurityContextImpl securityContextImpl = (SecurityContextImpl) request
                     .getSession().getAttribute("SPRING_SECURITY_CONTEXT");

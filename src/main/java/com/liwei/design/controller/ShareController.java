@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ShareController {
@@ -22,12 +25,31 @@ public class ShareController {
     @Autowired
     private FileService fileService;
 
+    //TODO 有点奇怪
     @RequestMapping("/s/{sPath}")
-    public ModelAndView sShare(@PathVariable String sPath, @RequestParam String secret) {
-        ModelAndView modelAndView = new ModelAndView();
-        String path = sr.getBysPath(sPath, secret);
-        modelAndView.addObject("rootPath", path);
+    public ModelAndView sShare(@PathVariable String sPath) {
+        ModelAndView modelAndView = new ModelAndView("user/sShare");
+        List<Share> list = sr.getBysPath(sPath);
+        Share s = null;
+        if (!list.isEmpty()) {
+            s = list.get(0);
+        }
+        modelAndView.addObject("path", s.getPath());
+        modelAndView.addObject("sPath", sPath);
         return modelAndView;
+    }
+
+    @RequestMapping("/s/check")
+    @ResponseBody
+    public Map<String, String> checkSecretShare(String sPath, String secret) {
+        String path = sr.getBysPathAndSecret(sPath, secret);
+        Map<String, String> res = new HashMap<>();
+        if (path != null) {
+            res.put("res", "success");
+        } else {
+            res.put("res", "fail");
+        }
+        return res;
     }
 
     @RequestMapping("/otherShare")
@@ -47,5 +69,11 @@ public class ShareController {
     public void responseDownload(HttpServletResponse response, @RequestParam String path,
                                  String other) throws UnsupportedEncodingException {
         fileService.downloadFile(response, path, other);
+    }
+
+    @RequestMapping("/share/downloadZip")
+    public void responseDownloadZip(HttpServletResponse response, @RequestParam String url,
+                                 String other) throws IOException {
+        fileService.downloadFolder(url, response, other);
     }
 }
