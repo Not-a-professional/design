@@ -84,7 +84,7 @@ function fillList(data) {
         aNode3.appendChild(aText3);
         var aNode4 = document.createElement("a");
         aNode4.setAttribute("role", "button");
-        // aNode4.onclick = Edit(data[i]);
+        aNode4.setAttribute("onclick", "Edit(\"" + data[i].substring(27) + "\")");
         var aText4 = document.createTextNode("编辑 ");
         aNode4.appendChild(aText4);
         var index = data[i].lastIndexOf(".");
@@ -129,6 +129,10 @@ function DownloadZip(e) {
     window.location.href = "http://localhost:8080/file/downloadZip?url=" + e + "&other";
 }
 
+function Edit(e) {
+    window.location.href = "http://localhost:8080/user/editor?path=" + e;
+}
+
 function Delete(e) {
     $.ajax({
         url:"/file/delete?path=" + e,
@@ -161,11 +165,6 @@ function Return() {
         path = path.substring(0, index);
         getList(path);
     }
-}
-
-//TODO 编辑txt文本
-function Edit(e) {
-
 }
 
 function Share(e) {

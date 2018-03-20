@@ -301,7 +301,7 @@ public class FileService {
         }
     }
 
-    //TODO 下载文件夹
+    // 下载文件夹
     public Map<String, String> downloadFolder(String url, HttpServletResponse response, String other)
             throws IOException {
         Map<String, String> res = new HashMap<String, String>();
@@ -315,6 +315,45 @@ public class FileService {
             share.setDownload(share.getDownload() + 1);
             sr.saveAndFlush(share);
         }
+        return res;
+    }
+
+    public Map<String, Object>  getEditorHtml(String path) throws IOException {
+        String location = root + path;
+        BufferedReader br = null;
+        StringBuilder sb = new StringBuilder();
+        try {
+            br = new BufferedReader(new FileReader(location));
+            String str;
+            while ((str = br.readLine()) != null) {
+                sb.append(str);
+                sb.append("\r\n");
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }finally {
+            br.close();
+        }
+        Map<String, Object> res = new HashMap<>();
+        res.put("res", sb.toString());
+        return res;
+    }
+
+    public Map<String, String> saveEditorHtml(String path, String content) throws IOException {
+        BufferedWriter bw = null;
+        String location = root + path;
+        Map<String, String> res = new HashMap<>();
+        try {
+            bw = new BufferedWriter(new FileWriter(location));
+            bw.write(content);
+        } catch (IOException e) {
+            e.printStackTrace();
+            res.put("res", "fail");
+            return res;
+        } finally {
+            bw.close();
+        }
+        res.put("res", "success");
         return res;
     }
 

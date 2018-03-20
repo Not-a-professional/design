@@ -119,4 +119,16 @@ public class FileController {
             throws IOException {
         return fileService.downloadFolder(url, response, other);
     }
+
+    @RequestMapping("/getEditorHtml")
+    @ResponseBody
+    public Map<String, Object> getEditorHtml(String path) throws IOException {
+        return fileService.getEditorHtml(path);
+    }
+
+    @RequestMapping("/saveEditorHtml")
+    @ResponseBody
+    public Map<String, String> saveEditorHtml(String path, String content) throws IOException {
+        return fileService.saveEditorHtml(path, content);
+    }
 }
