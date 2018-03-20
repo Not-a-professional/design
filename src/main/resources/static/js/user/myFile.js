@@ -122,11 +122,11 @@ function fillList(data) {
 }
 
 function Download(e) {
-    window.location.href = "http://localhost:8080/file/download?path=" + e;
+    window.location.href = "http://localhost:8080/file/download?path=" + e + "&other";
 }
 
 function DownloadZip(e) {
-    window.location.href = "http://localhost:8080/file/downloadZip?url=" + e;
+    window.location.href = "http://localhost:8080/file/downloadZip?url=" + e + "&other";
 }
 
 function Delete(e) {
