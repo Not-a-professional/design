@@ -44,10 +44,8 @@ public class ShareController {
     }
 
     @RequestMapping("/share/download")
-    public void responseDownload(HttpServletResponse response, @RequestParam String path)
-            throws UnsupportedEncodingException {
-        fileService.downloadFile(response, path);
-        Share share = sr.findOne(path);
-        share.setDownload(share.getDownload() + 1);
+    public void responseDownload(HttpServletResponse response, @RequestParam String path,
+                                 String other) throws UnsupportedEncodingException {
+        fileService.downloadFile(response, path, other);
     }
 }
