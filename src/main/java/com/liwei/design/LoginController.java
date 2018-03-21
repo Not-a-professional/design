@@ -74,6 +74,7 @@ public class LoginController {
         user.setUsername(name);
         user.setPassword(password);
         user.setVolume(2048);
+        user.setUsedVolume(0);
         if (hobby.contains("tiyu")) {
             user.setTiyu("1");
         }

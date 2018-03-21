@@ -1,9 +1,7 @@
 $(function() {
     $("#reg").validate({
         errorPlacement : function(error, element) {
-            if (element.is(":checkbox")) {
-                error.appendTo(element.parent().parent());
-            }
+            error.appendTo(element.parent());
         },
 
         rules:{

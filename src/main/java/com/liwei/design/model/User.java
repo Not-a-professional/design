@@ -54,6 +54,7 @@ public class User implements Serializable, UserDetails {
 
     @Getter
     @Setter
+    @Column(name = "used_volume")
     private long usedVolume;
 
     @Override
