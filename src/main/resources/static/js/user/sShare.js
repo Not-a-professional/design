@@ -1,6 +1,5 @@
-$(function () {
-
-});
+var path = '';
+var rootPath = '';
 
 function sCheck() {
     $.ajax({
@@ -14,6 +13,8 @@ function sCheck() {
         success: function (data) {
             if (data['res'] = "success") {
                 $("#body2").empty();
+                path = data['path'];
+                rootPath = data['path'];
                 getListForsPath()
             } else {
                 alert("提取码错误！");
@@ -95,16 +96,14 @@ function DownloadZip(e) {
 function Enter(e) {
     $("#body2").empty();
     path = e;
-    getList(e);
+    getListForsPath(e);
 }
 
 function Return() {
-    if (path == rootPath) {
-
-    } else {
+    if (path != rootPath) {
         $("#body2").empty();
         var index = path.lastIndexOf("/");
         path = path.substring(0, index);
-        getList(path);
+        getListForsPath(path);
     }
 }
