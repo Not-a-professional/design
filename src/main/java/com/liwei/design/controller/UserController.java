@@ -38,9 +38,10 @@ public class UserController {
     }
 
     @RequestMapping("/editor")
-    public ModelAndView editor() {
+    public ModelAndView editor(String path) {
         ModelAndView editor = new ModelAndView("user/editor");
         editor.addObject("title", "云笔记");
+        editor.addObject("editorPath", path);
         return editor;
     }
 }

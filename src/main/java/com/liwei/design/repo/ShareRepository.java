@@ -18,7 +18,10 @@ public interface ShareRepository extends JpaRepository<Share, String> {
     List<String> getListByUserAndSpath(String user);
 
     @Query("select s.path from Share s where s.spath = ?1 and s.secret = ?2")
-    String getBysPath(String sPath, String secret);
+    String getBysPathAndSecret(String sPath, String secret);
+
+    @Query("select s from Share s where s.spath = ?1")
+    List<Share> getBysPath(String sPath);
 
     @Modifying
     @Transactional

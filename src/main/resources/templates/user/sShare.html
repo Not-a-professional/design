@@ -18,6 +18,12 @@
     </div>
 </div>
 <script th:src="@{/js/home/home.js}"></script>
-<script th:src="@{/js/user/otherShare.js}"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var path = [[${path}]];
+    var sPath = [[${sPath}]];
+    /*]]>*/
+</script>
+<script th:src="@{/js/user/sShare.js}"></script>
 </body>
 </html>

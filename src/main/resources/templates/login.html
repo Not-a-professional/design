@@ -135,10 +135,8 @@
                     },
                 success: function (data) {
                     if (data['res'] == "success") {
-                        //TODO 提交表单
                         $("#Table").submit();
                     } else {
-                        //TODO 刷新页面
                         alert("验证码输入错误！");
                         $("#Table")[0].reset();
                         refreshKaptcha();

@@ -1,17 +1,41 @@
+var editorHtml;
+var E = window.wangEditor;
+var editor = new E('#editor');
 $(function init() {
-    var E = window.wangEditor;
-    var editor = new E('#editor');
-    // 或者 var editor = new E( document.getElementById('editor') )
     editor.customConfig.menus = [
-        'undo',  //撤销
-        'redo'   //重复
+        'undo',  // 撤销
+        'redo'  // 重复
     ];
-    editor.create();
-    //TODO 初始云笔记内容
-    editor.txt.html('<p>用 JS 设置的内容</p>');
+    getEditorHtml();
+    editor.txt.text(editorHtml);
+    editor.create()
 });
 
-function sc() {
-    //TODO 获取云笔记内容
-    editor.txt.text();
+function getEditorHtml() {
+    $.ajax({
+        url:"/file/getEditorHtml?path=" + editorPath,
+        dataType:"json",
+        success: function (data) {
+            editorHtml = data['res'];
+        }
+    })
+}
+
+function Save() {
+    $.ajax({
+        url:"/file/saveEditorHtml",
+        type:"POST",
+        data: {
+            path:editorPath,
+            content:editor.txt.text()
+        },
+        dataType:"json",
+        success: function (data) {
+            if (data['res'] == "success") {
+                alert("保存成功")
+            } else {
+                alert("保存失败")
+            }
+        }
+    })
 }

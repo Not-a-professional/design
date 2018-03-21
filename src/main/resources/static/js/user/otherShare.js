@@ -66,5 +66,5 @@ function OtherDownload(e) {
 }
 
 function OtherDownloadZip(e) {
-    window.location.href = "http://localhost:8080/file/downloadZip?url=" + e + "&other=other";
+    window.location.href = "http://localhost:8080/share/downloadZip?url=" + e + "&other=other";
 }
