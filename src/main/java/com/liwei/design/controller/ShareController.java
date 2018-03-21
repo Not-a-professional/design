@@ -34,8 +34,9 @@ public class ShareController {
         if (!list.isEmpty()) {
             s = list.get(0);
         }
-        modelAndView.addObject("path", s.getPath());
+        modelAndView.addObject("path", s == null ? "" : s.getPath());
         modelAndView.addObject("sPath", sPath);
+        modelAndView.addObject("title", s == null ? "" : s.getUser() + "的私密分享");
         return modelAndView;
     }
 

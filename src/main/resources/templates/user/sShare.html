@@ -12,7 +12,14 @@
     <div th:replace="common::siderright"></div>
     <div class="material-container">
         <div class="panel bit-1">
+            <div class="panel-body" id="body1" style="display: none">
+                <a href="#" class="btn btn-default radius" role="button" onclick="Return()">返回上层</a>
+            </div>
             <div class="panel-body" id="body2">
+                <input type="text" placeholder="输入提取码..." id="secret" name="secret"/>
+                <a id="search" name="search" type="button" class="btn btn-primary" onclick="sCheck()">
+                    <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>确认
+                </a>
             </div>
         </div>
     </div>
@@ -22,6 +29,7 @@
     /*<![CDATA[*/
     var path = [[${path}]];
     var sPath = [[${sPath}]];
+    var rootPath = [[${path}]];
     /*]]>*/
 </script>
 <script th:src="@{/js/user/sShare.js}"></script>
