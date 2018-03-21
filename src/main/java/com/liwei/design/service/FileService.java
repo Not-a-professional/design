@@ -229,6 +229,14 @@ public class FileService {
                 .getSession().getAttribute("SPRING_SECURITY_CONTEXT");
         Authentication authentication = securityContextImpl.getAuthentication();
         String username = authentication.getName();
+        return sr.getListByUserAndSpath(username);
+    }
+
+    public List<Share> getsShareList(HttpServletRequest request) {
+        SecurityContextImpl securityContextImpl = (SecurityContextImpl) request
+            .getSession().getAttribute("SPRING_SECURITY_CONTEXT");
+        Authentication authentication = securityContextImpl.getAuthentication();
+        String username = authentication.getName();
         return sr.getListByUser(username);
     }
 

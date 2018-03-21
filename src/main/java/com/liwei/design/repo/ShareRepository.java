@@ -11,8 +11,8 @@ import java.util.List;
 
 @Repository
 public interface ShareRepository extends JpaRepository<Share, String> {
-    @Query("select s.path from Share s where s.user = ?1")
-    List<String> getListByUser(String user);
+    @Query("select s from Share s where s.user = ?1 and s.spath is not null")
+    List<Share> getListByUser(String user);
 
     @Query("select s.path from Share s where s.user = ?1 and s.spath is null")
     List<String> getListByUserAndSpath(String user);

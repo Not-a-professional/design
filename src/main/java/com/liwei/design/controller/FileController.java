@@ -1,5 +1,6 @@
 package com.liwei.design.controller;
 
+import com.liwei.design.model.Share;
 import com.liwei.design.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -85,6 +86,12 @@ public class FileController {
     @ResponseBody
     public List<String> getShareList(HttpServletRequest request) {
         return fileService.getShareList(request);
+    }
+
+    @RequestMapping("/getsShareList")
+    @ResponseBody
+    public List<Share> getsShareList(HttpServletRequest request) {
+        return fileService.getsShareList(request);
     }
 
     @RequestMapping("/cancelShare")
