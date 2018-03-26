@@ -7,7 +7,7 @@ $(function init() {
         'redo'  // 重复
     ];
     getEditorHtml();
-    editor.txt.text(editorHtml);
+    editor.txt.html(editorHtml);
     editor.create()
 });
 
@@ -27,7 +27,7 @@ function Save() {
         type:"POST",
         data: {
             path:editorPath,
-            content:editor.txt.text()
+            content:editor.txt.html()
         },
         dataType:"json",
         success: function (data) {

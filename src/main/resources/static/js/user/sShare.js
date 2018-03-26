@@ -14,6 +14,7 @@ function sCheck() {
             if (data['res'] = "success") {
                 $("#body2").empty();
                 path = data['path'];
+                alert(data['path']);
                 rootPath = data['path'];
                 getListForsPath()
             } else {
@@ -86,11 +87,11 @@ function fillList(data) {
 }
 
 function Download(e) {
-    window.location.href = "http://localhost:8080/file/download?path=" + e + "&other";
+    window.location.href = "http://localhost:8080/file/download?path=" + e + "&other=other";
 }
 
 function DownloadZip(e) {
-    window.location.href = "http://localhost:8080/file/downloadZip?url=" + e + "&other";
+    window.location.href = "http://localhost:8080/file/downloadZip?url=" + e + "&other=other";
 }
 
 function Enter(e) {

@@ -64,7 +64,7 @@ function fillList(data) {
         var name = temp[temp.length - 1];
         inputNode1.setAttribute("type", "text");
         inputNode1.setAttribute("value", name);
-        inputNode1.setAttribute("style", "border:none;outline:none;width:100%");
+        inputNode1.setAttribute("style", "width:100%");
         inputNode1.setAttribute("readonly", "readonly");
         var pNode2 = document.createElement("h5");
         var aNode1 = document.createElement("a");
