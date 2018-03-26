@@ -318,7 +318,8 @@ public class FileService {
         response.setContentType("application/zip");
         String[] temp = url.split("/");
         String zipName = temp[temp.length - 1];
-        response.setHeader("Content-Disposition", "attachment; filename="+ zipName +".zip");
+        response.setHeader("Content-Disposition", "attachment; filename="
+                + new String(zipName.getBytes(), "iso-8859-1") + ".zip");
         toZip(root + url, response.getOutputStream(), true);
         if (other.equals("other")) {
             Share share = sr.findOne(url);
