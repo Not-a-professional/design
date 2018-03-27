@@ -199,5 +199,5 @@ function getFriendList() {
 }
 
 function otherShare(e) {
-    window.location.href = "/otherShare?name=" + e;
+    window.location.href = "/share/otherShare?name=" + e;
 }

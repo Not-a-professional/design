@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -50,12 +51,12 @@ public class User implements Serializable, UserDetails {
 
     @Getter
     @Setter
-    private long volume;
+    private BigDecimal volume;
 
     @Getter
     @Setter
     @Column(name = "used_volume")
-    private long usedVolume;
+    private BigDecimal usedVolume;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

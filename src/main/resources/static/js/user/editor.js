@@ -1,14 +1,12 @@
-var editorHtml;
-var E = window.wangEditor;
-var editor = new E('#editor');
+var editorHtml = '';
+var editor = new wangEditor('#editor');
 $(function init() {
     editor.customConfig.menus = [
         'undo',  // 撤销
         'redo'  // 重复
     ];
     getEditorHtml();
-    editor.txt.html(editorHtml);
-    editor.create()
+    editor.create();
 });
 
 function getEditorHtml() {
@@ -17,6 +15,7 @@ function getEditorHtml() {
         dataType:"json",
         success: function (data) {
             editorHtml = data['res'];
+            editor.txt.html(editorHtml);
         }
     })
 }

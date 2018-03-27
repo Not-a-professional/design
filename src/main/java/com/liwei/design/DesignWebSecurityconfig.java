@@ -14,7 +14,7 @@ public class DesignWebSecurityconfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/admin/**")
                 .hasAuthority("ROLE_ADMIN")
-                .antMatchers("/user/**", "/home", "/file/**")
+                .antMatchers("/user/**", "/home", "/file/**", "/share/**")
                 .hasAnyRole("USER","ADMIN")
                 .and().formLogin().loginPage("/login")
                 .failureUrl("/login?error=true")

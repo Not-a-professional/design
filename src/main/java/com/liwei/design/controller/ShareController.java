@@ -53,14 +53,14 @@ public class ShareController {
         return res;
     }
 
-    @RequestMapping("/otherShare")
+    @RequestMapping("/share/otherShare")
     public ModelAndView otherShare(String name) {
         ModelAndView modelAndView = new ModelAndView("user/otherShare");
         modelAndView.addObject("name", name);
         return modelAndView;
     }
 
-    @RequestMapping("/getOtherShare")
+    @RequestMapping("/share/getOtherShare")
     @ResponseBody
     public List<String> getOtherShare(String name) {
         return sr.getListByUserAndSpath(name);

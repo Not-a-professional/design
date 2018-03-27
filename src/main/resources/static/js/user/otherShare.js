@@ -4,7 +4,7 @@ $(function () {
 
 function getOtherShare() {
     $.ajax({
-        url:"/getOtherShare?name=" + name,
+        url:"/share/getOtherShare?name=" + name,
         type:"GET",
         dataType:"json",
         success: function (data) {

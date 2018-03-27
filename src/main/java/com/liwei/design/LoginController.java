@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -73,8 +74,8 @@ public class LoginController {
         user.setAuth("USER");
         user.setUsername(name);
         user.setPassword(password);
-        user.setVolume(2048);
-        user.setUsedVolume(0);
+        user.setVolume(BigDecimal.valueOf(2048));
+        user.setUsedVolume(BigDecimal.valueOf(0));
         if (hobby.contains("tiyu")) {
             user.setTiyu("1");
         }

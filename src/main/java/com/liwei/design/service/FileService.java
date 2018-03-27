@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.math.BigDecimal;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -147,19 +148,21 @@ public class FileService {
         Map<String, Object> res = new HashMap<String, Object>();
         String filename = uploadFile.getOriginalFilename();
         if (!uploadFile.isEmpty()) {
-            // 为user表设置存储容量字段，判断上传的文件是否会超过限制容量
-            long sizeMB = uploadFile.getSize()/1024/1024;//getSize()获得字节大小
+            // 为user表设置存储容量字段，判断上传的文件是否会超过限制容量,单位kb
+            float sizeMB = uploadFile.getBytes().length/1024;
+            System.out.println(sizeMB);
             SecurityContextImpl securityContextImpl = (SecurityContextImpl) request
                     .getSession().getAttribute("SPRING_SECURITY_CONTEXT");
             Authentication authentication = securityContextImpl.getAuthentication();
             String username = authentication.getName();
             User user = ur.findOne(username);
-            if (user.getUsedVolume() + sizeMB > user.getVolume()) {
+            if (user.getUsedVolume().add(BigDecimal.valueOf(sizeMB))
+                    .compareTo(user.getVolume()) == 1) {
                 res.put("res", "fail");
-                res.put("msg", "存储空间不足，请申请提高存储空间！");
+                res.put("msg", "存储空间不足，上传失败\r\n请申请提高存储空间！");
                 return res;
             } else {
-                user.setUsedVolume(user.getUsedVolume() + sizeMB);
+                user.setUsedVolume(user.getUsedVolume().add(BigDecimal.valueOf(sizeMB)));
                 ur.saveAndFlush(user);
             }
 
