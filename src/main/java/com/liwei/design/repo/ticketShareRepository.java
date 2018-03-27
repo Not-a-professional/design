@@ -15,7 +15,7 @@ public interface ticketShareRepository extends JpaRepository<ticketShare, Long> 
     @Query("select t from ticketShare t where t.user <> ?1 and t.user like ?2 and t.status = '0'")
     List<ticketShare> findAllByUser(String user, String username, Pageable pageable);
 
-    @Query("select t from ticketShare t where t.path = ?1")
+    @Query("select t from ticketShare t where t.path = ?1 and t.status = '0'")
     ticketShare findOneByPath(String url);
 
     @Modifying
