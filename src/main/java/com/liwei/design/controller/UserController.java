@@ -51,4 +51,11 @@ public class UserController {
     public List<hotShare> getHotShare(HttpServletRequest request) {
         return us.getHotShare(request);
     }
+
+    @RequestMapping("/volumeApply")
+    public ModelAndView volumeApply() {
+        ModelAndView volumeApply = new ModelAndView("user/volumeApply");
+        volumeApply.addObject("title", "申请容量");
+        return volumeApply;
+    }
 }

@@ -55,6 +55,12 @@
                     我的分享
                 </a>
             </li>
+            <li sec:authorize="hasAuthority('ROLE_ADMIN')">
+                <a th:href="@{/user/volumeApply}" th:class="material-btn-flat-white">
+                    <span class="glyphicon glyphicon-bookmark"></span>
+                    申请容量
+                </a>
+            </li>
             <li>
                 <a href="#fileinput" data-btn-type="toggle" class="material-btn-flat-white">
                     <span class="glyphicon glyphicon-upload"></span>
