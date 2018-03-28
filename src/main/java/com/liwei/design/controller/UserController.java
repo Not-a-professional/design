@@ -1,6 +1,6 @@
 package com.liwei.design.controller;
 
-import com.liwei.design.otherModel.hotShare;
+import com.liwei.design.othermodel.hotShare;
 import com.liwei.design.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

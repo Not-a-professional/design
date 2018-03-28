@@ -2,7 +2,7 @@ package com.liwei.design.service;
 
 import com.liwei.design.model.User;
 import com.liwei.design.model.ticketVolume;
-import com.liwei.design.otherModel.hotShare;
+import com.liwei.design.othermodel.hotShare;
 import com.liwei.design.repo.UserRepository;
 import com.liwei.design.repo.ticketVolumeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,12 +51,14 @@ public class UserService {
         Authentication authentication = securityContextImpl.getAuthentication();
         String username = authentication.getName();
         User user = uRepo.findAllByUsername(username);
-        StringBuilder stringBuilder = new StringBuilder("select top 8 u.username userId, s.path url"
-            + ", s.download hot from user u, share s where u.username = s.user and s.spath is null and ");
+        StringBuilder stringBuilder = new StringBuilder("select u.username userId, s.path url, "
+                + "s.download hot from user u, share s where u.username = s.user and s.spath is"
+                + " null and ");
 
         getHobby(stringBuilder, user);
 
-        stringBuilder.append(") and u.username <> " + "'" + username + "' order by s.download desc");
+        stringBuilder.append(") and u.username <> " + "'" + username + "' order by"
+                + " s.download desc limit 8");
 
         String sql = stringBuilder.toString();
 

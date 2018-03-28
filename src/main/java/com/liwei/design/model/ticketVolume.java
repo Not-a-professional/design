@@ -24,10 +24,9 @@ public class ticketVolume implements Serializable {
 
     @Setter
     @Getter
-    private String status;
+    private String reason;
 
-    //TODO 数据库增加申请理由字段, 去掉operator字段
     @Setter
     @Getter
-    private String reason;
+    private String status;
 }

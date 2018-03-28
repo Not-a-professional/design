@@ -1,5 +1,5 @@
 $(function init() {
-    $("#shareTable").bootstrapTable({
+    $("#volumeTable").bootstrapTable({
         url:"/admin/getTicketVolume",
         method: 'get',
         toolbar: '#toolbar',

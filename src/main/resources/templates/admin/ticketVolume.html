@@ -2,6 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <object th:replace="common::head" th:remove="tag"></object>
+    <script th:src="@{/bootstrap-table/src/bootstrap-table.js}"></script>
+    <script th:src="@{/bootstrap-table/src/locale/bootstrap-table-zh-CN.js}"></script>
+    <link rel="stylesheet" th:href="@{/bootstrap-table/src/bootstrap-table.css}"/>
 </head>
 <body data-material-theme="bluegrey" class="material-design">
 <div class="material-design-layout">
@@ -27,5 +30,6 @@
     </div>
 </div>
 <script th:src="@{/js/home/home.js}"></script>
+<script th:src="@{/js/admin/ticketVolume.js}"></script>
 </body>
 </html>

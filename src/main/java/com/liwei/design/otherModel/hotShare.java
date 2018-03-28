@@ -1,4 +1,4 @@
-package com.liwei.design.otherModel;
+package com.liwei.design.othermodel;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
