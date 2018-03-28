@@ -208,6 +208,7 @@ public class FileService {
         String username = authentication.getName();
         File file = new File(root + "/" + username);
         List<String> dirList = new ArrayList<String>();
+        dirList.add(file.getAbsolutePath());
         getAllDir(dirList, file);
         return dirList;
     }
