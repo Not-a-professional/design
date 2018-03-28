@@ -49,9 +49,13 @@ function Auth(e) {
         type:"GET",
         dataType:"json",
         success: function () {
+            alert("操作成功!");
             $("#shareTable").bootstrapTable('refresh',{
                 silent:true
             });
+        },
+        error: function () {
+            alert("操作失败！");
         }
     })
 }
@@ -63,9 +67,13 @@ function unAuth(e) {
         type:"GET",
         dataType:"json",
         success: function () {
+            alert("操作成功!");
             $("#shareTable").bootstrapTable('refresh',{
                 silent:true
             });
+        },
+        error: function () {
+            alert("操作失败！");
         }
     })
 }
