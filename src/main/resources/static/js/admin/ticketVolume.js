@@ -25,9 +25,6 @@ $(function init() {
             field: 'user',
             title: '申请用户'
         },{
-            field: 'volume',
-            title: '申请容量'
-        },{
             field: 'reason',
             title: '申请理由'
         }]

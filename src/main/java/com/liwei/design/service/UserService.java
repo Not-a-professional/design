@@ -1,8 +1,10 @@
 package com.liwei.design.service;
 
 import com.liwei.design.model.User;
+import com.liwei.design.model.ticketVolume;
 import com.liwei.design.otherModel.hotShare;
 import com.liwei.design.repo.UserRepository;
+import com.liwei.design.repo.ticketVolumeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -14,12 +16,16 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserService {
     @Autowired
     private UserRepository uRepo;
+    @Autowired
+    private ticketVolumeRepository tvRepo;
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -61,6 +67,25 @@ public class UserService {
             hotShare.setHot(rs.getString("hot"));
             return hotShare;
         });
+    }
+
+    public Map<String, String> volumeReason(HttpServletRequest request, String reason) {
+        SecurityContextImpl securityContextImpl = (SecurityContextImpl) request
+            .getSession().getAttribute("SPRING_SECURITY_CONTEXT");
+        Authentication authentication = securityContextImpl.getAuthentication();
+        String username = authentication.getName();
+        ticketVolume ticketVolume = new ticketVolume();
+        ticketVolume.setStatus("0");
+        ticketVolume.setReason(reason);
+        ticketVolume.setUser(username);
+        Map<String, String> res = new HashMap<String, String>();
+        if (tvRepo.saveAndFlush(ticketVolume) != null) {
+            res.put("fail","fail");
+            return res;
+        } else {
+            res.put("success", "success");
+            return res;
+        }
     }
 
     private void getHobby(StringBuilder stringBuilder, User user) {

@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
@@ -57,5 +58,11 @@ public class UserController {
         ModelAndView volumeApply = new ModelAndView("user/volumeApply");
         volumeApply.addObject("title", "申请容量");
         return volumeApply;
+    }
+
+    @RequestMapping("/volumeReason")
+    @ResponseBody
+    public Map<String, String> volumeReason(HttpServletRequest request, String reason) {
+        return us.volumeReason(request, reason);
     }
 }

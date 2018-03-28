@@ -13,11 +13,34 @@
     <div class="material-container">
         <div class="panel bit-1">
             <div class="panel-body">
+                <textarea name="reason", id="reason" placeholder="请在此填入申请理由，字数不要超过150字">
 
+                </textarea>
+                <a role="button" id="apply">申请</a>
             </div>
         </div>
     </div>
 </div>
 <script th:src="@{/js/home/home.js}"></script>
+<script>
+    $("#apply").click(function () {
+        $.ajax({
+            url: "/user/volumeReason",
+            type: "POST",
+            data: {
+                reason: $("#reason").val()
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.success) {
+                    alert("申请成功，请等待审核！");
+                }
+            },
+            error: function (data) {
+                alert("申请失败！");
+            }
+        });
+    })
+</script>
 </body>
 </html>

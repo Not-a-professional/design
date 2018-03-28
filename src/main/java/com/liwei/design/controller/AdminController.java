@@ -49,7 +49,7 @@ public class AdminController {
         return  modelAndView;
     }
 
-    @RequestMapping("/getTicketShare")
+    @RequestMapping("/getTicketVolume")
     @ResponseBody
     public Map<String, Object> getTicketShare(Pageable pageable,
             HttpServletRequest request, @RequestParam String username) {
@@ -65,7 +65,7 @@ public class AdminController {
         return map;
     }
 
-    @RequestMapping("/getTicketVolume")
+    @RequestMapping("/getTicketShare")
     @ResponseBody
     public Map<String, Object> getTicketVolume(Pageable pageable,
                                               HttpServletRequest request, @RequestParam String username) {
