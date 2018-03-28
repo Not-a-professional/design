@@ -1,5 +1,6 @@
 package com.liwei.design.controller;
 
+import com.liwei.design.otherModel.hotShare;
 import com.liwei.design.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,5 +44,11 @@ public class UserController {
         editor.addObject("title", "云笔记");
         editor.addObject("editorPath", path);
         return editor;
+    }
+
+    @RequestMapping("/getHotShare")
+    @ResponseBody
+    public List<hotShare> getHotShare(HttpServletRequest request) {
+        return us.getHotShare(request);
     }
 }
