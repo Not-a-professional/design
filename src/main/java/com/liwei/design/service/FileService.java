@@ -149,7 +149,7 @@ public class FileService {
         String filename = uploadFile.getOriginalFilename();
         if (!uploadFile.isEmpty()) {
             // 为user表设置存储容量字段，判断上传的文件是否会超过限制容量,单位kb
-            float sizeMB = uploadFile.getBytes().length/1024;
+            double sizeMB = uploadFile.getBytes().length / 1024.00;
             System.out.println(sizeMB);
             SecurityContextImpl securityContextImpl = (SecurityContextImpl) request
                     .getSession().getAttribute("SPRING_SECURITY_CONTEXT");
