@@ -8,6 +8,7 @@ import com.liwei.design.repo.ShareRepository;
 import com.liwei.design.repo.UserRepository;
 import com.liwei.design.repo.ticketShareRepository;
 import com.liwei.design.repo.ticketVolumeRepository;
+import com.liwei.design.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -18,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -83,7 +86,8 @@ public class AdminController {
 
     @RequestMapping("/shareAuth")
     @ResponseBody
-    public Map<String, String> auth(String id) {
+    public Map<String, String> auth(String id)
+        throws UnsupportedEncodingException, MessagingException {
         Map<String, String> map = new HashMap<String, String>();
         tsRepo.updateById(Long.valueOf(id));
         ticketShare ts = tsRepo.getOne(Long.valueOf(id));
@@ -92,19 +96,29 @@ public class AdminController {
         s.setUser(ts.getUser());
         s.setDate(new SimpleDateFormat("yyyyMMdd").format(new Date()));
         s.setDownload(0);
+        String html = "您的分享申请" + ts.getPath() + "已通过！";
         if (ts.getSpath() != null) {
             s.setSecret(ts.getSecret());
             s.setSpath(ts.getSpath());
+            html = html + "您的私密分享路径为localhost:8080/s/" + ts.getSpath()
+                + "，私密分享提取码为" + ts.getSecret();
         }
         sRepo.saveAndFlush(s);
+        User user = uRepo.findAllByUsername(ts.getUser());
+        MailService.sendHtmlMail(user.getEmail(), "分享申请审核结果", html);
         map.put("res", "success");
         return map;
     }
 
     @RequestMapping("/shareUnauth")
     @ResponseBody
-    public Map<String, String> unAuth(String id) {
+    public Map<String, String> unAuth(String id)
+        throws UnsupportedEncodingException, MessagingException {
         Map<String, String> map = new HashMap<String, String>();
+        ticketShare ticketShare = tsRepo.findOne(Long.valueOf(id));
+        User user = uRepo.findAllByUsername(ticketShare.getUser());
+        MailService.sendHtmlMail(user.getEmail(), "分享申请审核结果", "抱歉，您的分享申请" + ticketShare.getPath()
+            + "未通过！");
         tsRepo.deleteById(Long.valueOf(id));
         map.put("res", "success");
         return map;
@@ -112,7 +126,8 @@ public class AdminController {
 
     @RequestMapping("/volumeAuth")
     @ResponseBody
-    public Map<String, String> authVolume(String id) {
+    public Map<String, String> authVolume(String id)
+        throws UnsupportedEncodingException, MessagingException {
         Map<String, String> map = new HashMap<String, String>();
         ticketVolume tv = tvRepo.findOne(Long.valueOf(id));
         tv.setStatus("1");
@@ -121,14 +136,20 @@ public class AdminController {
         User user = uRepo.findAllByUsername(tv.getUser());
         user.setVolume(user.getVolume().add(BigDecimal.valueOf(2048)));
         uRepo.saveAndFlush(user);
+        MailService.sendHtmlMail(user.getEmail(), "容量申请审核结果", "您的容量申请已通过，您的总容量为："
+            + user.getVolume() + "kb，已使用容量为：" + user.getUsedVolume() + "kb");
         map.put("res", "success");
         return map;
     }
 
     @RequestMapping("/unAuthVolume")
     @ResponseBody
-    public Map<String, String> unAuthVolume(String id) {
+    public Map<String, String> unAuthVolume(String id)
+        throws UnsupportedEncodingException, MessagingException {
         Map<String, String> map = new HashMap<String, String>();
+        ticketVolume ticketVolume = tvRepo.findOne(Long.valueOf(id));
+        User user = uRepo.findAllByUsername(ticketVolume.getUser());
+        MailService.sendHtmlMail(user.getEmail(), "容量申请审核结果", "抱歉，您的容量申请未通过");
         tvRepo.delete(Long.valueOf(id));
         map.put("res", "success");
         return map;
