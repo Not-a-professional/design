@@ -21,7 +21,11 @@ $(function() {
             },
             email:{
                 required:true,
-                email:true
+                email:true,
+                remote:{
+                    url:"/checkEmail",
+                    type:"POST"
+                }
             },
             hobby:{
                 required:true
@@ -41,7 +45,8 @@ $(function() {
             },
             email:{
                 required:"邮箱不能为空！",
-                email:"请填写正确的邮箱格式！"
+                email:"请填写正确的邮箱格式！",
+                remote:"邮箱已被占用！"
             },
             hobby:{
                 required:"至少选择一个兴趣！"
