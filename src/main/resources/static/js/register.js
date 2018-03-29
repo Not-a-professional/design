@@ -79,9 +79,9 @@ $(function() {
     })
 });
 
-$('.text-muted').click(function(){
-    $('.pop_box').slideDown('400');
+$('#register').click(function(){
+    $('#regForm').slideDown('400');
 });
-$('.closepop').click(function(){
-    $('.pop_box').slideUp('400');
+$('#closeReg').click(function(){
+    $('#regForm').slideUp('400');
 });

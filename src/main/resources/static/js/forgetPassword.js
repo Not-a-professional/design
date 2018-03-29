@@ -1,6 +1,10 @@
 $("#forget").click(function () {
-   //TODO 跳出输入用户名窗口
+   $('#forgetPassword').slideDown('400');
 });
+
+$('#closeForget').click(function () {
+    $("#forgetPassword").slideUp('400');
+})
 
 function sendForgetPasswordEmail() {
     $.ajax({
