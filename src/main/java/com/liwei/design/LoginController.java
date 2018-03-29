@@ -69,11 +69,12 @@ public class LoginController {
 
     @RequestMapping("/register")
     @ResponseBody
-    public Map<String, String> register(String name, String password, String hobby) {
+    public Map<String, String> register(String name, String password, String email, String hobby) {
         User user = new User();
         user.setAuth("USER");
         user.setUsername(name);
         user.setPassword(password);
+        user.setEmail(email);
         user.setVolume(BigDecimal.valueOf(2048));
         user.setUsedVolume(BigDecimal.valueOf(0));
         if (hobby.contains("tiyu")) {

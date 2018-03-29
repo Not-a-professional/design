@@ -35,6 +35,10 @@ public class User implements Serializable, UserDetails {
 
     @Getter
     @Setter
+    private String email;
+
+    @Getter
+    @Setter
     private String tiyu;
 
     @Getter

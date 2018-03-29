@@ -19,6 +19,10 @@ $(function() {
                 required:true,
                 equalTo:"#regpassword1"
             },
+            email:{
+                required:true,
+                email:true
+            },
             hobby:{
                 required:true
             }
@@ -35,6 +39,10 @@ $(function() {
                 required:"密码不能为空！",
                 equalTo:"密码不一致！"
             },
+            email:{
+                required:"邮箱不能为空！",
+                email:"请填写正确的邮箱格式！"
+            },
             hobby:{
                 required:"至少选择一个兴趣！"
             }
@@ -50,6 +58,7 @@ $(function() {
                 data:{
                     name:$("#regname").val(),
                     password:$("#regpassword1").val(),
+                    email:$("#email").val(),
                     hobby:hobby
                 },
                 dataType:"json",
