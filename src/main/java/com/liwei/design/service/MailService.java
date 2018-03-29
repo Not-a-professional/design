@@ -4,6 +4,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
@@ -35,7 +36,7 @@ public class MailService {
     sender.setDefaultEncoding("Utf-8");
     Properties p = new Properties();
     p.setProperty("mail.smtp.timeout", "25000");
-    p.setProperty("mail.smtp.auth", "false");
+    p.setProperty("mail.smtp.auth", "true");
     sender.setJavaMailProperties(p);
     return sender;
   }
@@ -52,9 +53,10 @@ public class MailService {
   public static void sendHtmlMail(String to, String subject, String html)
       throws UnsupportedEncodingException, javax.mail.MessagingException {
     MimeMessage mimeMessage = mailSender.createMimeMessage();
+    mimeMessage.addRecipients(MimeMessage.RecipientType.CC, InternetAddress.parse(USERNAME));
     // 设置utf-8或GBK编码，否则邮件会有乱码
     MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-    messageHelper.setFrom(EMAILFROM, "自由网盘");
+    messageHelper.setFrom(EMAILFROM);
     messageHelper.setTo(to);
     messageHelper.setSubject(subject);
     messageHelper.setText(html, true);

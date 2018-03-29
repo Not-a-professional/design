@@ -64,7 +64,7 @@ function findPassword() {
 }
 
 function getForgetPop() {
-    var h3Node = document.createElement('h3');
+    var h3Node = document.createElement('h5');
     var textNode = document.createTextNode("请填入需要找回密码的用户名");
     h3Node.appendChild(textNode);
     var formNode = document.createElement('form');
@@ -76,7 +76,7 @@ function getForgetPop() {
     var trNode = document.createElement("tr");
     var tdNode1 = document.createElement("td");
     var pNode = document.createElement("p");
-    var textNode1 = document.createElement("用户名");
+    var textNode1 = document.createTextNode("用户名");
     pNode.appendChild(textNode1);
     tdNode1.appendChild(pNode);
     var tdNode2 = document.createElement("td");
@@ -91,19 +91,20 @@ function getForgetPop() {
     formNode.appendChild(tableNode);
     var divNode = document.createElement("div");
     divNode.setAttribute("class", "btn_a1");
-    var aNode = document.createElement("input");
+    var aNode = document.createElement("a");
     aNode.setAttribute("type", "button");
     aNode.setAttribute("class", "dtadd");
     aNode.setAttribute("onclick", "sendForgetPasswordEmail()");
     var textNode2 = document.createTextNode("提交");
     aNode.appendChild(textNode2);
-    formNode.appendChild(aNode);
-    $('#forgettextmain')[0].appendChild(h3Node).appendChild(formNode);
+    $('#forgettextmain')[0].appendChild(h3Node);
+    $('#forgettextmain')[0].appendChild(formNode);
+    $('#forgettextmain')[0].appendChild(aNode);
     $('#forgetPassword').slideDown('400');
 }
 
 function getCheckCodePop() {
-    var h3Node = document.createElement('h3');
+    var h3Node = document.createElement('h5');
     var textNode = document.createTextNode("请填入您收到的邮件中给出的验证码");
     h3Node.appendChild(textNode);
     var formNode = document.createElement('form');
@@ -115,7 +116,7 @@ function getCheckCodePop() {
     var trNode = document.createElement("tr");
     var tdNode1 = document.createElement("td");
     var pNode = document.createElement("p");
-    var textNode1 = document.createElement("验证码");
+    var textNode1 = document.createTextNode("验证码");
     pNode.appendChild(textNode1);
     tdNode1.appendChild(pNode);
     var tdNode2 = document.createElement("td");
@@ -130,12 +131,13 @@ function getCheckCodePop() {
     formNode.appendChild(tableNode);
     var divNode = document.createElement("div");
     divNode.setAttribute("class", "btn_a1");
-    var aNode = document.createElement("input");
+    var aNode = document.createElement("a");
     aNode.setAttribute("type", "button");
     aNode.setAttribute("class", "dtadd");
     aNode.setAttribute("onclick", "vertifyCheckCode()");
     var textNode2 = document.createTextNode("提交");
     aNode.appendChild(textNode2);
-    formNode.appendChild(aNode);
-    $('#forgettextmain')[0].appendChild(h3Node).appendChild(formNode);
+    $('#forgettextmain')[0].appendChild(h3Node);
+    $('#forgettextmain')[0].appendChild(formNode);
+    $('#forgettextmain')[0].appendChild(aNode);
 }

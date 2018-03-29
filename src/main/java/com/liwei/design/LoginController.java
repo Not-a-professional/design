@@ -145,8 +145,8 @@ public class LoginController {
         session.setAttribute(FORGET_NAME, name);
 
         User user = uRepo.findAllByUsername(name);
-        String html = "您本次的验证码为" + checkCode;
-        MailService.sendHtmlMail(user.getEmail(), "自由网盘找回密码邮件", html);
+        String html = "验证码:" + checkCode;
+        MailService.sendHtmlMail(user.getEmail(), "找回密码提示", html);
         
         Map<String, String> res = new HashMap<String, String>();
         res.put("success", "success");

@@ -81,7 +81,7 @@ public class UserService {
         ticketVolume.setReason(reason);
         ticketVolume.setUser(username);
         Map<String, String> res = new HashMap<String, String>();
-        if (tvRepo.saveAndFlush(ticketVolume) != null) {
+        if (tvRepo.saveAndFlush(ticketVolume) == null) {
             res.put("fail","fail");
             return res;
         } else {

@@ -96,11 +96,11 @@ public class AdminController {
         s.setUser(ts.getUser());
         s.setDate(new SimpleDateFormat("yyyyMMdd").format(new Date()));
         s.setDownload(0);
-        String html = "您的分享申请" + ts.getPath() + "已通过！";
+        String html = "分享申请" + ts.getPath() + "已通过！";
         if (ts.getSpath() != null) {
             s.setSecret(ts.getSecret());
             s.setSpath(ts.getSpath());
-            html = html + "您的私密分享路径为localhost:8080/s/" + ts.getSpath()
+            html = html + "私密分享路径为localhost:8080/s/" + ts.getSpath()
                 + "，私密分享提取码为" + ts.getSecret();
         }
         sRepo.saveAndFlush(s);
