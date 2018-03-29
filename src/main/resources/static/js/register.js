@@ -82,6 +82,6 @@ $(function() {
 $('#register').click(function(){
     $('#regForm').slideDown('400');
 });
-$('#closeReg').click(function(){
+$('.closeReg').click(function(){
     $('#regForm').slideUp('400');
 });

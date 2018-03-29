@@ -33,7 +33,8 @@ public class LoginController {
     private UserRepository uRepo;
     @Autowired
     private FileService fs;
-    public final static String CHECK_CODE = "checkCode";
+    private final static String CHECK_CODE = "checkCode";
+    private final static String FORGET_NAME = "forgetName";
 
 
     @RequestMapping("/vertifyKaptcha")
@@ -139,8 +140,10 @@ public class LoginController {
 
         String checkCode = sb.toString();
         HttpSession session = request.getSession();
+
         session.setAttribute(CHECK_CODE, checkCode);
-        
+        session.setAttribute(FORGET_NAME, name);
+
         User user = uRepo.findAllByUsername(name);
         String html = "您本次的验证码为" + checkCode;
         MailService.sendHtmlMail(user.getEmail(), "自由网盘找回密码邮件", html);
@@ -169,12 +172,15 @@ public class LoginController {
 
     @RequestMapping("/findPassword")
     @ResponseBody
-    public Map<String, String> findPassword(String name) {
+    public Map<String, String> findPassword(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        String name = (String) session.getAttribute(FORGET_NAME);
         User user = uRepo.findAllByUsername(name);
         Map<String, String> res = new HashMap<>();
         if (user != null) {
             res.put("password", user.getPassword());
         }
+        session.removeAttribute(FORGET_NAME);
         return res;
     }
 }
