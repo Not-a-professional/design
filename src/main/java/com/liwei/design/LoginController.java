@@ -5,6 +5,7 @@ import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.liwei.design.model.User;
 import com.liwei.design.repo.UserRepository;
 import com.liwei.design.service.FileService;
+import com.liwei.design.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,10 +18,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 @Controller
 public class LoginController {
@@ -28,6 +33,7 @@ public class LoginController {
     private UserRepository uRepo;
     @Autowired
     private FileService fs;
+    public final static String CHECK_CODE = "checkCode";
 
 
     @RequestMapping("/vertifyKaptcha")
@@ -107,6 +113,58 @@ public class LoginController {
 
         Map<String, String> res = new HashMap<String, String>();
         res.put("res", "success");
+        return res;
+    }
+
+    @RequestMapping("/forgetPassword")
+    @ResponseBody
+    public Map<String, String> forgetPassword(HttpServletRequest request, String name) 
+        throws UnsupportedEncodingException, MessagingException {
+        String index = "123456789zxcvbnmasdfghjklqwertyuiopZXCVBNMASDFGHJKLQWERTYUIOP";
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 6; ++i) {
+            sb.append(index.charAt(random.nextInt(index.length())));
+        }
+
+        String checkCode = sb.toString();
+        HttpSession session = request.getSession();
+        session.setAttribute(CHECK_CODE, checkCode);
+        
+        User user = uRepo.findAllByUsername(name);
+        String html = "您本次的验证码为" + checkCode;
+        MailService.sendHtmlMail(user.getEmail(), "自由网盘找回密码邮件", html);
+        
+        Map<String, String> res = new HashMap<String, String>();
+        res.put("success", "success");
+        return res;
+    }
+    
+    @RequestMapping("/vertifyCheckCode")
+    @ResponseBody
+    public Map<String, String> vertifyCheckCode(String checkCode, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        String code = (String) session.getAttribute(CHECK_CODE);
+        if (code.equals(checkCode)) {
+            session.removeAttribute(CHECK_CODE);
+            Map<String, String> res = new HashMap<String, String>();
+            res.put("success", "success");
+            return res;
+        } else {
+            Map<String, String> res = new HashMap<String, String>();
+            res.put("fail", "fail");
+            return res;
+        }
+    }
+
+    @RequestMapping("/findPassword")
+    @ResponseBody
+    public Map<String, String> findPassword(String name) {
+        User user = uRepo.findAllByUsername(name);
+        Map<String, String> res = new HashMap<>();
+        if (user != null) {
+            res.put("password", user.getPassword());
+        }
         return res;
     }
 }
