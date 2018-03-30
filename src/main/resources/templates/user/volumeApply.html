@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <object th:replace="common::head" th:remove="tag"></object>
+    <link rel="stylesheet" th:href="@{/wangEditor/wangEditor.min.css}"/>
 </head>
 <body data-material-theme="bluegrey" class="material-design">
 <div class="material-design-layout">
@@ -13,22 +14,33 @@
     <div class="material-container">
         <div class="panel bit-1">
             <div class="panel-body">
-                <textarea name="reason" id="reason" style="width: 100%" placeholder="请在此填入申请理由，字数不要超过150字" rows="15">
+                <h4>请填入申请理由</h4>
+                <div id="editor">
 
-                </textarea>
-                <a role="button" class="btn btn-primary" id="apply">申请</a>
+                </div>
+                <a role="button" type="button" class="btn btn-primary" id="apply">申请</a>
             </div>
         </div>
     </div>
 </div>
 <script th:src="@{/js/home/home.js}"></script>
+<script th:src="@{/wangEditor/wangEditor.js}"></script>
 <script>
+    var editor = new wangEditor('#editor');
+    $(function init() {
+        editor.customConfig.menus = [
+            'undo',  // 撤销
+            'redo'  // 重复
+        ];
+        editor.create();
+    });
+
     $("#apply").click(function () {
         $.ajax({
             url: "/user/volumeReason",
             type: "POST",
             data: {
-                reason: $("#reason").val()
+                reason: editor.txt.text()
             },
             dataType: "json",
             success: function (data) {

@@ -164,7 +164,6 @@ function getFileInputList() {
                 var optionNode = document.createElement("option");
                 optionNode.setAttribute("value", data[i].substring(27));
                 if (i == 0) {
-                    //TODO 第一次生成的默认选中
                     optionNode.setAttribute("selected", "selected");
                 }
                 var text = document.createTextNode(data[i].substring(27));
