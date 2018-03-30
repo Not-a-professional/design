@@ -119,7 +119,7 @@ public class AdminController {
         User user = uRepo.findAllByUsername(ticketShare.getUser());
         MailService.sendHtmlMail(user.getEmail(), "分享申请审核结果", "抱歉，您的分享申请" + ticketShare.getPath()
             + "未通过！");
-        tsRepo.deleteById(Long.valueOf(id));
+        tsRepo.updateById(Long.valueOf(id));
         map.put("res", "success");
         return map;
     }
@@ -150,7 +150,9 @@ public class AdminController {
         ticketVolume ticketVolume = tvRepo.findOne(Long.valueOf(id));
         User user = uRepo.findAllByUsername(ticketVolume.getUser());
         MailService.sendHtmlMail(user.getEmail(), "容量申请审核结果", "抱歉，您的容量申请未通过");
-        tvRepo.delete(Long.valueOf(id));
+        ticketVolume tv = tvRepo.findOne(Long.valueOf(id));
+        tv.setStatus("1");
+        tvRepo.saveAndFlush(tv);
         map.put("res", "success");
         return map;
     }

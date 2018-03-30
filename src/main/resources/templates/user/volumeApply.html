@@ -34,6 +34,10 @@
             success: function (data) {
                 if (data.success) {
                     alert("申请成功，请等待审核！");
+                } else if (data.fail1) {
+                    confirm(data.fail1);
+                } else if (data.fail) {
+                    confirm("申请失败！");
                 }
             },
             error: function (data) {

@@ -76,11 +76,16 @@ public class UserService {
             .getSession().getAttribute("SPRING_SECURITY_CONTEXT");
         Authentication authentication = securityContextImpl.getAuthentication();
         String username = authentication.getName();
+        Map<String, String> res = new HashMap<String, String>();
+        //有申请还在进行则不允许再次申请
+        if (tvRepo.findAllByUserAndStatus(username) != null) {
+            res.put("fail1", "您的前一次申请还在审核中，请耐心等待！");
+        }
         ticketVolume ticketVolume = new ticketVolume();
         ticketVolume.setStatus("0");
         ticketVolume.setReason(reason);
         ticketVolume.setUser(username);
-        Map<String, String> res = new HashMap<String, String>();
+
         if (tvRepo.saveAndFlush(ticketVolume) == null) {
             res.put("fail","fail");
             return res;

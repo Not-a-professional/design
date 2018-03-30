@@ -184,14 +184,14 @@ function generateShare() {
             success: function (data) {
                 if (data['sPath'] == 'fail') {
                     $("#sPath").empty();
-                    $("#sPath").append('<ul><li>' + '申请失败！' +'</li></ul>')
+                    $("#sPath").append('<ul><li>' + '您的前一次申请还在审核中，请耐心等待！' +'</li></ul>')
                 } else {
                     $("#sPath").empty();
                     $("#sPath").append('<ul><li>' + '公开分享申请已提交，请耐心等待管理员审核！' + '</li></ul>')
                 }
             },
             error: function (data) {
-                alert(data)
+                alert("申请失败！" + data)
             }
         })
     } else {
@@ -202,7 +202,7 @@ function generateShare() {
             success: function (data) {
                 if (data['res'] == 'fail') {
                     $("#sPath").empty();
-                    $("#sPath").append('<ul><li>' + '申请失败！' +'</li></ul>')
+                    $("#sPath").append('<ul><li>' + '您的前一次申请还在审核中，请耐心等待！' +'</li></ul>')
                 } else {
                     $("#sPath").empty();
                     $("#sPath").append('<ul><li>' + '私密链接：' + data['sPath']
@@ -211,7 +211,7 @@ function generateShare() {
                 }
             },
             error: function (data) {
-                alert(data)
+                alert("申请失败！" + data)
             }
         })
     }
