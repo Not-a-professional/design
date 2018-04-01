@@ -50,7 +50,7 @@ function Auth(e) {
         dataType:"json",
         success: function () {
             alert("操作成功!");
-            $("#shareTable").bootstrapTable('refresh',{
+            $("#volumeTable").bootstrapTable('refresh',{
                 silent:true
             });
         },
@@ -68,7 +68,7 @@ function unAuth(e) {
         dataType:"json",
         success: function () {
             alert("操作成功!");
-            $("#shareTable").bootstrapTable('refresh',{
+            $("#volumeTable").bootstrapTable('refresh',{
                 silent:true
             });
         },

@@ -64,9 +64,6 @@ function findPassword() {
 }
 
 function getForgetPop() {
-    var h3Node = document.createElement('h5');
-    var textNode = document.createTextNode("请填入需要找回密码的用户名");
-    h3Node.appendChild(textNode);
     var formNode = document.createElement('form');
     var tableNode = document.createElement("table");
     tableNode.setAttribute("class", "normTbe");
@@ -91,13 +88,12 @@ function getForgetPop() {
     formNode.appendChild(tableNode);
     var divNode = document.createElement("div");
     divNode.setAttribute("class", "btn_a1");
-    var aNode = document.createElement("a");
+    var aNode = document.createElement("button");
     aNode.setAttribute("type", "button");
     aNode.setAttribute("class", "dtadd");
     aNode.setAttribute("onclick", "sendForgetPasswordEmail()");
     var textNode2 = document.createTextNode("提交");
     aNode.appendChild(textNode2);
-    $('#forgettextmain')[0].appendChild(h3Node);
     $('#forgettextmain')[0].appendChild(formNode);
     $('#forgettextmain')[0].appendChild(aNode);
     $('#forgetPassword').slideDown('400');
@@ -131,7 +127,7 @@ function getCheckCodePop() {
     formNode.appendChild(tableNode);
     var divNode = document.createElement("div");
     divNode.setAttribute("class", "btn_a1");
-    var aNode = document.createElement("a");
+    var aNode = document.createElement("button");
     aNode.setAttribute("type", "button");
     aNode.setAttribute("class", "dtadd");
     aNode.setAttribute("onclick", "vertifyCheckCode()");

@@ -78,8 +78,9 @@ public class UserService {
         String username = authentication.getName();
         Map<String, String> res = new HashMap<String, String>();
         //有申请还在进行则不允许再次申请
-        if (tvRepo.findAllByUserAndStatus(username) != null) {
+        if (!tvRepo.findAllByUserAndStatus(username).isEmpty()) {
             res.put("fail1", "您的前一次申请还在审核中，请耐心等待！");
+            return res;
         }
         ticketVolume ticketVolume = new ticketVolume();
         ticketVolume.setStatus("0");

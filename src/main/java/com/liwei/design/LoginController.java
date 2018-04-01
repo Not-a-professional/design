@@ -77,10 +77,10 @@ public class LoginController {
     @RequestMapping("/checkEmail")
     @ResponseBody
     public String checkEmail(String email) {
-        if (uRepo.findByEmail(email) != null) {
-            return "false";
-        } else {
+        if (uRepo.findByEmail(email).isEmpty()) {
             return "true";
+        } else {
+            return "false";
         }
     }
 

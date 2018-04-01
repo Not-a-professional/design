@@ -55,7 +55,7 @@
                     我的分享
                 </a>
             </li>
-            <li sec:authorize="hasAuthority('ROLE_ADMIN')">
+            <li>
                 <a th:href="@{/user/volumeApply}" th:class="material-btn-flat-white">
                     <span class="glyphicon glyphicon-hdd"></span>
                     申请容量
