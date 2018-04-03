@@ -3,9 +3,10 @@ $(function init() {
         url:"/admin/getTicketVolume",
         method: 'get',
         toolbar: '#toolbar',
+        pageSize : 10, //每页的记录行数(*)
         pagination:true,
         cache: false,
-        sortable: false,
+        sortable: true,
         sidePagination: "server",
         queryParams: queryParams,
         queryParamsType:"",

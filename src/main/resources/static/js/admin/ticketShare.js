@@ -3,9 +3,10 @@ $(function init() {
         url:"/admin/getTicketShare",
         method: 'get',
         toolbar: '#toolbar',
+        pageSize : 10,
         pagination:true,
         cache: false,
-        sortable: false,
+        sortable: true,
         sidePagination: "server",
         queryParams: queryParams,
         queryParamsType:"",
@@ -46,7 +47,11 @@ $(function init() {
                         break;
                 }
             }
-        }]
+        }],
+        detailView : true, //是否显示父子表
+        onExpandRow : function (index, row, $detail) {
+
+        }
     });
 });
 
