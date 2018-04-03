@@ -32,14 +32,14 @@ $(function init() {
                 var suffix = row.path.substring(index + 1);
                 switch (suffix) {
                     case "jpg" :
-                        return '<img src="http://localhost:8080/file/getView"' + row.path.substring(27) + '/>';
+                        return '<img src="http://localhost:8080/file/getView"' + row.path.substring(27) + 'width="100"/>';
                         break;
                     case "png" :
-                        return '<img src="http://localhost:8080/file/getView"' + row.path.substring(27) + '/>';
+                        return '<img src="http://localhost:8080/file/getView"' + row.path.substring(27) + 'width="100"/>';
                         break;
                     case "video" :
                         return '<video src="http://localhost:8080/file/download?other&path=' + row.path.substring(27)
-                            + ' poster="http://localhost:8080/img/Youtube.png"></video>';
+                            + '" poster="http://localhost:8080/img/Youtube.png" width="100"></video>';
                         break;
                     default :
                         return row.path;
