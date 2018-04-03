@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -165,6 +166,60 @@ public class FileService {
         }
     }
 
+    public Map<String, Object> uploadDir(String path, HttpServletRequest request)
+        throws IOException  {
+        MultipartHttpServletRequest params=((MultipartHttpServletRequest) request);
+        List<MultipartFile> files = params.getFiles("uploadDir");
+        double sizeMB = 0.0;
+        SecurityContextImpl securityContextImpl = (SecurityContextImpl) request
+            .getSession().getAttribute("SPRING_SECURITY_CONTEXT");
+        Authentication authentication = securityContextImpl.getAuthentication();
+        String username = authentication.getName();
+        User user = ur.findOne(username);
+        Map<String, Object> res = new HashMap<>();
+        for (MultipartFile file: files) {
+            sizeMB = sizeMB + file.getBytes().length / 1024.00;
+            if (user.getUsedVolume().add(BigDecimal.valueOf(sizeMB))
+                .compareTo(user.getVolume()) == 1) {
+                res.put("res", "fail");
+                res.put("msg", "存储空间不足，上传失败\r\n请申请提高存储空间！");
+                return res;
+            }
+        }
+        for (MultipartFile file: files) {
+            InputStream in = null;
+            OutputStream out = null;
+            try {
+                File serverFile = new File(root + path +"/" + file.getOriginalFilename());
+                in = file.getInputStream();
+                out = new FileOutputStream(serverFile);
+                byte[] b = new byte[1024];
+                int len = 0;
+                while ((len = in.read(b)) > 0) {
+                    out.write(b, 0, len);
+                }
+                out.close();
+                in.close();
+                res.put("res","success");
+                return res;
+            } catch (Exception e) {
+                res.put("res","fail");
+                return res;
+            } finally {
+                if (out != null) {
+                    out.close();
+                    out = null;
+                }
+
+                if (in != null) {
+                    in.close();
+                    in = null;
+                }
+            }
+        }
+        return res;
+    }
+
     public Map<String, Object> uploadFile(MultipartFile uploadFile, String path, HttpServletRequest request)
             throws IOException  {
         Map<String, Object> res = new HashMap<String, Object>();
@@ -172,7 +227,6 @@ public class FileService {
         if (!uploadFile.isEmpty()) {
             // 为user表设置存储容量字段，判断上传的文件是否会超过限制容量,单位kb
             double sizeMB = uploadFile.getBytes().length / 1024.00;
-            System.out.println(sizeMB);
             SecurityContextImpl securityContextImpl = (SecurityContextImpl) request
                     .getSession().getAttribute("SPRING_SECURITY_CONTEXT");
             Authentication authentication = securityContextImpl.getAuthentication();

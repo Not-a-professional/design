@@ -67,6 +67,12 @@
                     上传文件
                 </a>
             </li>
+            <li>
+                <a href="#dirinput" data-btn-type="toggle" class="material-btn-flat-white">
+                    <span class="glyphicon glyphicon-folder-open"></span>
+                    上传文件夹
+                </a>
+            </li>
             <li sec:authorize="hasAuthority('ROLE_ADMIN')">
                 <a th:href="@{/admin/ticketShare}" th:class="material-btn-flat-white">
                     <span class="glyphicon glyphicon-tasks"></span>
@@ -141,6 +147,33 @@
                 <label class="control-label">选择文件：</label>
                 <input type="file" name="uploadFile" id="uploadFile" multiple="multiple" class="file-loading" />
             </div>
+        </section>
+        <footer>
+            <a href="#" data-btn-type="toggle" class="btn btn-default radius" role="button">关闭</a>
+        </footer>
+    </div>
+    <div class="m-card bit-3 off-screen" data-type="main-modal" data-background-color="#03a9f4"
+         data-curtain="true" data-depth="4" id="dirinput" style="z-index: 99999" th:fragment="dirinput">
+        <header style="display: none;">
+            <span class="card-header-text">关于本站</span>
+        </header>
+        <section class="inner__card">
+            <h2 class="title">
+                上传文件夹
+            </h2>
+            <form id="dirForm" th:action="@{/file/uploadDir}">
+                <div class="form-group">
+                    <label class="control-label">选择保存路径：</label>
+                    <select multiple="multiple" class="form-control" id="dirpath" name="dirpath">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">选择文件夹：</label>
+                    <input type="file" name="uploadDir" id="uploadDir" multiple="multiple"
+                           webkitdirectory="webkitdirectory"/>
+                </div>
+            </form>
+            <button type="button" class="btn btn-default" id="dirButton" onclick="uploadDir()"></button>
         </section>
         <footer>
             <a href="#" data-btn-type="toggle" class="btn btn-default radius" role="button">关闭</a>

@@ -15,8 +15,8 @@ $(function init() {
             title: '操作',
             formatter: function (value, row, index) {
                 return [
-                    '<a role="button" type="button" class="btn btn-primary" onclick="Auth('+ row.id+')">通过</a>',
-                    '<a role="button" type="button" class="btn btn-danger" onclick="unAuth('+ row.id+')">驳回</a>'
+                    '<a role="button" type="button" class="btn btn-primary radius" onclick="Auth('+ row.id+')">通过</a>',
+                    '<a role="button" type="button" class="btn btn-danger radius" onclick="unAuth('+ row.id+')">驳回</a>'
                 ].join('')
             }
         },{

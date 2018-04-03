@@ -51,6 +51,27 @@ $(function init() {
             }
         }
     });
+
+    document.getElementById('uploadDir').onchange = function checkDir(e) {
+        //判断是否选中文件
+        var files = e.target.files; // FileList
+        //文件数量
+        var actual_filesCount = files.length;
+        var actual_filesSize = 0;
+        var filesCount = 2000;
+        var filesSize = 36700160; //35MB
+        if(actual_filesCount > filesCount){
+            confirm("文件过多，单次最多可上传"+filesCount+"个文件");
+            return;
+        }
+        for (var i = 0, f; f = files[i]; ++i){
+            actual_filesSize += f.size;
+            if(actual_filesSize > filesSize){
+                confirm("单次文件夹上传不能超过"+filesSize/1024/1024+"MB");
+                return;
+            }
+        }
+    };
 });
 
 function getcong() {
@@ -169,6 +190,7 @@ function getFileInputList() {
                 var text = document.createTextNode(data[i].substring(27));
                 optionNode.appendChild(text);
                 document.getElementById("path").appendChild(optionNode);
+                document.getElementById("dirpath").appendChild(optionNode);
             }
         }
     });
@@ -212,4 +234,14 @@ function OtherDownload(e) {
 
 function OtherDownloadZip(e) {
     window.location.href = "http://localhost:8080/share/downloadZip?url=" + e + "&other=other";
+}
+
+function uploadDir() {
+    var dir = $("#uploadDir").val();
+    if (dir.isEmpty()) {
+        confirm("请选择需要上传的文件夹");
+        return;
+    }
+
+    $("#dirForm").submit();
 }
