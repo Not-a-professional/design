@@ -243,7 +243,7 @@ function uploadDir() {
         return;
     }
 
-    $("#dirName").val(dir.name);
+    $("#dirName").val(dir.webkitRelativePath);
 
     confirm($("#dirName").val());
 

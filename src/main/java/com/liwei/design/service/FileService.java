@@ -187,35 +187,8 @@ public class FileService {
             }
         }
         for (MultipartFile file: files) {
-            InputStream in = null;
-            OutputStream out = null;
-            try {
-                File serverFile = new File(root + path +"/" + file.getOriginalFilename());
-                in = file.getInputStream();
-                out = new FileOutputStream(serverFile);
-                byte[] b = new byte[1024];
-                int len = 0;
-                while ((len = in.read(b)) > 0) {
-                    out.write(b, 0, len);
-                }
-                out.close();
-                in.close();
-                res.put("res","success");
-                return res;
-            } catch (Exception e) {
-                res.put("res","fail");
-                return res;
-            } finally {
-                if (out != null) {
-                    out.close();
-                    out = null;
-                }
-
-                if (in != null) {
-                    in.close();
-                    in = null;
-                }
-            }
+            // 保存目录结构上传文件夹
+            // https://blog.csdn.net/bedisdover/article/details/52579713
         }
         return res;
     }
