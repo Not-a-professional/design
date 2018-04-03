@@ -243,5 +243,9 @@ function uploadDir() {
         return;
     }
 
+    $("#dirName").val(dir.name);
+
+    confirm($("#dirName").val());
+
     $("#dirForm").submit();
 }
