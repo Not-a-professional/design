@@ -8,6 +8,7 @@ import com.liwei.design.repo.ShareRepository;
 import com.liwei.design.repo.UserRepository;
 import com.liwei.design.repo.ticketShareRepository;
 import com.liwei.design.repo.ticketVolumeRepository;
+import com.liwei.design.service.FileService;
 import com.liwei.design.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -37,6 +38,8 @@ public class AdminController {
     private ticketVolumeRepository tvRepo;
     @Autowired
     private UserRepository uRepo;
+    @Autowired
+    private FileService fileService;
 
     @RequestMapping("/ticketShare")
     public ModelAndView ticketShare() {
@@ -79,6 +82,16 @@ public class AdminController {
         List<ticketShare> list = new ArrayList<ticketShare>();
         list = tsRepo.findAllByUser(user, "%" + username + "%", pageable);
         Map<String, Object> map = new HashMap<String, Object>();
+        map.put("total", list.size());
+        map.put("rows", list);
+        return map;
+    }
+
+    @RequestMapping("/getList")
+    @ResponseBody
+    public Map<String, Object> getAdminFileList(String path) {
+        Map<String, Object> map = new HashMap<>();
+        List<Map<String, String>> list = fileService.getAdminFileList(path);
         map.put("total", list.size());
         map.put("rows", list);
         return map;
@@ -156,4 +169,5 @@ public class AdminController {
         map.put("res", "success");
         return map;
     }
+
 }

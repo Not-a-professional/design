@@ -49,8 +49,8 @@ $(function init() {
             }
         }],
         detailView : true, //是否显示父子表
-        onExpandRow : function (index, row, $detail) {
-
+        onExpandRow : function (index, row, $detail) { //循环初始化子表
+            subTable(index, row, $detail);
         }
     });
 });
@@ -100,4 +100,45 @@ function unAuth(e) {
             alert("操作失败！");
         }
     })
+}
+
+//递归生成子表
+function subTable(index, row, $detail) {
+    var parentPath = row.path;
+    var cur_table = $detail.html('<table></table>').find('table');
+    $(cur_table).bootstrapTable({
+        url: "/admin/getList?path=" + parentPath,
+        method: "get",
+        detailView: true,//父子表
+        pageSize: 10,
+        sidePagination: "server",
+        queryParamsType:"",
+        dataType:"json",
+        columns:[{
+            field: 'path',
+            title: '文件(夹)',
+            formatter: function (value, row, index) {
+                var index = row.path.lastIndexOf(".");
+                var suffix = row.path.substring(index + 1);
+                switch (suffix) {
+                    case "jpg" :
+                        return '<img src="http://localhost:8080/file/getView"' + row.path.substring(27) + 'width="100"/>';
+                        break;
+                    case "png" :
+                        return '<img src="http://localhost:8080/file/getView"' + row.path.substring(27) + 'width="100"/>';
+                        break;
+                    case "video" :
+                        return '<video src="http://localhost:8080/file/download?other&path=' + row.path.substring(27)
+                            + '" poster="http://localhost:8080/img/Youtube.png" width="100"></video>';
+                        break;
+                    default :
+                        return row.path;
+                        break;
+                }
+            }
+        }],
+        onExpandRow: function (index, row, $Subdetail) {
+            subTable(index, row, $Subdetail);
+        }
+    });
 }

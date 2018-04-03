@@ -92,6 +92,28 @@ public class FileService {
         return fileList;
     }
 
+    public List<Map<String, String>> getAdminFileList(String path) {
+        List<Map<String, String>> list = new ArrayList<>();
+        File file = new File(root + path);
+        File[] files = file.listFiles();
+        if (files != null) {
+            for (File temp : files) {
+                Map<String, String> map = new HashMap<>();
+                if (temp.getAbsolutePath().endsWith(".DS_Store")) {
+
+                } else {
+                    map.put("path",temp.getAbsolutePath());
+                    list.add(map);
+                }
+            }
+        } else {
+            Map<String, String> map = new HashMap<>();
+            map.put("path", file.getAbsolutePath());
+            list.add(map);
+        }
+        return list;
+    }
+
     public String deleteFile(String path) {
         File file = new File(root + path);
         if (file.isDirectory()) {
