@@ -91,9 +91,14 @@ function fillsList(data) {
         inputNode1.setAttribute("readonly", "readonly");
         var inputNode2 = document.createElement("input");
         inputNode2.setAttribute("type", "text");
-        inputNode2.setAttribute("value", data[i].spath);
+        inputNode2.setAttribute("value", "私密路径：http://localhost:8080/s/" + data[i].spath);
         inputNode2.setAttribute("style", "border:none;outline:none;width:100%");
         inputNode2.setAttribute("readonly", "readonly");
+        var inputNode3 = document.createElement("input");
+        inputNode3.setAttribute("type", "text");
+        inputNode3.setAttribute("value", "提取码：" + data[i].secret);
+        inputNode3.setAttribute("style", "border:none;outline:none;width:100%");
+        inputNode3.setAttribute("readonly", "readonly");
         var pNode2 = document.createElement("h5");
         var aNode1 = document.createElement("a");
         aNode1.setAttribute("role", "button");
@@ -114,6 +119,7 @@ function fillsList(data) {
         }
         captionNode.appendChild(inputNode1);
         captionNode.appendChild(inputNode2);
+        captionNode.appendChild(inputNode3);
         captionNode.appendChild(pNode2);
         thNode.appendChild(imgNode);
         thNode.appendChild(captionNode);

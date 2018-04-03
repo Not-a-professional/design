@@ -25,7 +25,6 @@ public class ShareController {
     @Autowired
     private FileService fileService;
 
-    //TODO 有点奇怪
     @RequestMapping("/s/{sPath}")
     public ModelAndView sShare(@PathVariable String sPath) {
         ModelAndView modelAndView = new ModelAndView("user/sShare");
