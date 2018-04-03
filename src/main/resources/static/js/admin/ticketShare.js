@@ -26,7 +26,26 @@ $(function init() {
             title: '申请用户'
         },{
             field: 'path',
-            title: '文件(夹)路径'
+            title: '文件(夹)',
+            formatter: function (value, row, index) {
+                var index = row.path.lastIndexOf(".");
+                var suffix = row.path.substring(index + 1);
+                switch (suffix) {
+                    case "jpg" :
+                        return '<img src="http://localhost:8080/file/getView"' + row.path.substring(27) + '/>';
+                        break;
+                    case "png" :
+                        return '<img src="http://localhost:8080/file/getView"' + row.path.substring(27) + '/>';
+                        break;
+                    case "video" :
+                        return '<video src="http://localhost:8080/file/download?other&path=' + row.path.substring(27)
+                            + ' poster="http://localhost:8080/img/Youtube.png"></video>';
+                        break;
+                    default :
+                        return row.path;
+                        break;
+                }
+            }
         }]
     });
 });
