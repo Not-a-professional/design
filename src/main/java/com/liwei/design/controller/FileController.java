@@ -84,9 +84,9 @@ public class FileController {
 
     @RequestMapping("/uploadDir")
     @ResponseBody
-    public Map<String, Object> uploadDir(String dirName, String path, HttpServletRequest request)
+    public Map<String, Object> uploadDir(String dirName, String path, HttpServletRequest request, HttpServletResponse response)
         throws IOException {
-        return fileService.uploadDir(path, request);
+        return fileService.uploadDir(path, request, response);
     }
 
     @RequestMapping("/getShareList")

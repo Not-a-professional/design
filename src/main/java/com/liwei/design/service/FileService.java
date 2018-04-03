@@ -6,6 +6,10 @@ import com.liwei.design.model.ticketShare;
 import com.liwei.design.repo.ShareRepository;
 import com.liwei.design.repo.UserRepository;
 import com.liwei.design.repo.ticketShareRepository;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextImpl;
@@ -166,7 +170,8 @@ public class FileService {
         }
     }
 
-    public Map<String, Object> uploadDir(String path, HttpServletRequest request)
+    public Map<String, Object> uploadDir(String path, HttpServletRequest request,
+                                         HttpServletResponse response)
         throws IOException  {
         MultipartHttpServletRequest params=((MultipartHttpServletRequest) request);
         List<MultipartFile> files = params.getFiles("uploadDir");
@@ -189,6 +194,40 @@ public class FileService {
         for (MultipartFile file: files) {
             // 保存目录结构上传文件夹
             // https://blog.csdn.net/bedisdover/article/details/52579713
+        }
+
+        String contentType = request.getContentType();
+
+        if (contentType.contains("multipart/form-data")) {
+            try {
+                // 解析获取的文件
+                List<FileItem> fileItems = getFileItem(request);
+                // 处理上传的文件
+                for (FileItem fileItem : fileItems) {
+                    if (!fileItem.isFormField()) {
+                        String fileName = fileItem.getName();
+                        // 获取文件的各级目录
+                        List<String> separatedPath = getSeparatedPath(fileName);
+
+                        // 扫描文件目录结构
+                        String temp = "D:";
+                        for (int i = 0; i < separatedPath.size() - 1; i++) {
+                            temp += "/" + separatedPath.get(i);
+                            // 若父级目录目录不存在，创建之
+                            if (!new File(temp).exists()) {
+                                new File(temp).mkdir();
+                            }
+                        }
+
+                        // 写入文件
+                        writeFile(fileItem, temp, separatedPath.get(separatedPath.size() - 1));
+                    }
+                }
+            } catch (FileUploadException e) {
+                response.getWriter().print("文件夹过大,无法上传");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return res;
     }
@@ -539,6 +578,58 @@ public class FileService {
                 }
             }
         }
+    }
+
+    /**
+     * 获取request对象中包含的文件列表
+     *
+     * @throws FileUploadException
+     */
+    private List<FileItem> getFileItem(HttpServletRequest request)
+        throws FileUploadException {
+        DiskFileItemFactory factory = new DiskFileItemFactory();
+        // 设置内存中存储文件的最大值
+        factory.setSizeThreshold(36700160);
+        // 创建一个新的文件上传处理程序
+        ServletFileUpload upload = new ServletFileUpload(factory);
+        // 设置最大上传的文件大小
+        upload.setSizeMax(36700160);
+
+        return upload.parseRequest(request);
+    }
+
+    /**
+     * 向磁盘写入文件
+     *
+     * @param fileItem 文件项，包含文件内容
+     * @param filePath 文件路径，不包含文件名
+     * @param fileName 文件名，不包含路径
+     */
+    private void writeFile(FileItem fileItem, String filePath, String fileName) throws Exception {
+        File file = new File(filePath, fileName);
+
+        fileItem.write(file);
+    }
+
+    /**
+     * 从文件路径中获取文件名及各级父目录
+     *
+     * @param filePath 文件相对项目目录的路径
+     * @return List<String> (0 ~ n - 2) :各级父目录名称
+     * n - 1       :不包含路径的文件名
+     * 示例：filePath --- taskName/src/main/java/test.java
+     * 返回["taskName", "src", "main", "java", "test.java"]
+     */
+    private List<String> getSeparatedPath(String filePath) {
+        List<String> result = new ArrayList<>();
+
+        StringTokenizer tokenizer = new StringTokenizer(filePath, "/");
+
+        while (tokenizer.hasMoreElements()) {
+            result.add(tokenizer.nextToken());
+        }
+
+        return result;
     }
 
 }
