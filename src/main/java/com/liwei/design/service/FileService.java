@@ -49,8 +49,7 @@ public class FileService {
         response.setHeader("content-disposition", "attachment;filename="
                 + new String(filename.getBytes(), "iso-8859-1"));
         //4.获取要下载的文件输入流
-        try {
-            InputStream in = new FileInputStream(root + path);
+        try (InputStream in = new FileInputStream(root + path)){
 
             int len = 0;
             //5.创建书缓冲区
@@ -62,7 +61,6 @@ public class FileService {
                 os.write(buffer, 0, len);
             }
             //8.关闭流
-            in.close();
             os.close();
         }catch (Exception e){
             System.err.println(e.getLocalizedMessage());
@@ -553,13 +551,13 @@ public class FileService {
             zos.putNextEntry(new ZipEntry(name));
             // copy文件到zip输出流中
             int len;
-            FileInputStream in = new FileInputStream(sourceFile);
-            while ((len = in.read(buf)) != -1){
-                zos.write(buf, 0, len);
+            try (FileInputStream in = new FileInputStream(sourceFile)) {
+                while ((len = in.read(buf)) != -1) {
+                    zos.write(buf, 0, len);
+                }
+                // Complete the entry
+                zos.closeEntry();
             }
-            // Complete the entry
-            zos.closeEntry();
-            in.close();
         } else {
             File[] listFiles = sourceFile.listFiles();
             if(listFiles == null || listFiles.length == 0){
