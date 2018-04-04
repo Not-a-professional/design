@@ -170,7 +170,7 @@ public class FileService {
         }
     }
 
-    public Map<String, Object> uploadDir(String path, HttpServletRequest request,
+    public Map<String, Object> uploadDir(HttpServletRequest request,
                                          HttpServletResponse response)
         throws IOException  {
         MultipartHttpServletRequest params=((MultipartHttpServletRequest) request);
@@ -191,17 +191,16 @@ public class FileService {
                 return res;
             }
         }
-        for (MultipartFile file: files) {
-            // 保存目录结构上传文件夹
-            // https://blog.csdn.net/bedisdover/article/details/52579713
-        }
 
+        // 保存目录结构上传文件夹
+        // https://blog.csdn.net/bedisdover/article/details/52579713
         String contentType = request.getContentType();
 
         if (contentType.contains("multipart/form-data")) {
             try {
                 // 解析获取的文件
                 List<FileItem> fileItems = getFileItem(request);
+                String parentPath = null;
                 // 处理上传的文件
                 for (FileItem fileItem : fileItems) {
                     if (!fileItem.isFormField()) {
@@ -210,7 +209,7 @@ public class FileService {
                         List<String> separatedPath = getSeparatedPath(fileName);
 
                         // 扫描文件目录结构
-                        String temp = "D:";
+                        String temp = root + parentPath;
                         for (int i = 0; i < separatedPath.size() - 1; i++) {
                             temp += "/" + separatedPath.get(i);
                             // 若父级目录目录不存在，创建之
@@ -221,6 +220,8 @@ public class FileService {
 
                         // 写入文件
                         writeFile(fileItem, temp, separatedPath.get(separatedPath.size() - 1));
+                    } else {
+                        parentPath = fileItem.getString();
                     }
                 }
             } catch (FileUploadException e) {
