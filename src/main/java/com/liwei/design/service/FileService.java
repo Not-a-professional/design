@@ -194,6 +194,7 @@ public class FileService {
 
         // 保存目录结构上传文件夹
         // https://blog.csdn.net/bedisdover/article/details/52579713
+        //https://blog.csdn.net/wenzhihui_2010/article/details/39397837
         String contentType = request.getContentType();
 
         if (contentType.contains("multipart/form-data")) {
@@ -203,7 +204,7 @@ public class FileService {
                 String parentPath = null;
                 // 处理上传的文件
                 for (FileItem fileItem : fileItems) {
-                    if (!fileItem.isFormField()) {
+                    if (!fileItem.isFormField()) {//是否为普通表单输入项
                         String fileName = fileItem.getName();
                         // 获取文件的各级目录
                         List<String> separatedPath = getSeparatedPath(fileName);
