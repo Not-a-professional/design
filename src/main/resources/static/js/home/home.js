@@ -243,5 +243,23 @@ function uploadDir() {
         return;
     }
 
-    $("#dirForm").submit();
+    // $("#dirForm").submit();
+    var formData = new FormData(document.getElementById("dirForm"));
+    $.ajax({
+        url: "/file/uploadDir",
+        type: "post",
+        data: formData,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (data) {
+            if (data.fail) {
+                confirm(data.fail);
+            }
+            confirm("上传成功！");
+        },
+        error: function (data) {
+            confirm("上传失败！");
+        }
+    })
 }

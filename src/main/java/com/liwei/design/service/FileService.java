@@ -193,9 +193,6 @@ public class FileService {
         // 保存目录结构上传文件夹
         // https://blog.csdn.net/bedisdover/article/details/52579713
         //https://blog.csdn.net/wenzhihui_2010/article/details/39397837
-        String contentType = request.getContentType();
-
-        if (contentType.contains("multipart/form-data")) {
             try {
                 // 解析获取的文件
                 List<FileItem> fileItems = getFileItem(request);
@@ -233,7 +230,7 @@ public class FileService {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
+
         return res;
     }
 
