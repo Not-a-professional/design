@@ -204,7 +204,14 @@ public class FileService {
                 String parentPath = null;
                 // 处理上传的文件
                 for (FileItem fileItem : fileItems) {
-                    if (!fileItem.isFormField()) {//是否为普通表单输入项
+                    if (fileItem.isFormField()) {//普通表单输入项
+                        parentPath = fileItem.getString();
+                        break;
+                    }
+                }
+
+                for (FileItem fileItem : fileItems) {
+                    if (!fileItem.isFormField()) {//文件输入项
                         String fileName = fileItem.getName();
                         // 获取文件的各级目录
                         List<String> separatedPath = getSeparatedPath(fileName);
@@ -221,8 +228,6 @@ public class FileService {
 
                         // 写入文件
                         writeFile(fileItem, temp.toString(), separatedPath.get(separatedPath.size() - 1));
-                    } else {
-                        parentPath = fileItem.getString();
                     }
                 }
             } catch (FileUploadException e) {
