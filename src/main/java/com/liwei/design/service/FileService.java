@@ -210,17 +210,17 @@ public class FileService {
                         List<String> separatedPath = getSeparatedPath(fileName);
 
                         // 扫描文件目录结构
-                        String temp = root + parentPath;
+                        StringBuilder temp = new StringBuilder(root + parentPath);
                         for (int i = 0; i < separatedPath.size() - 1; i++) {
-                            temp += "/" + separatedPath.get(i);
+                            temp.append("/").append(separatedPath.get(i));
                             // 若父级目录目录不存在，创建之
-                            if (!new File(temp).exists()) {
-                                new File(temp).mkdir();
+                            if (!new File(temp.toString()).exists()) {
+                                new File(temp.toString()).mkdir();
                             }
                         }
 
                         // 写入文件
-                        writeFile(fileItem, temp, separatedPath.get(separatedPath.size() - 1));
+                        writeFile(fileItem, temp.toString(), separatedPath.get(separatedPath.size() - 1));
                     } else {
                         parentPath = fileItem.getString();
                     }
