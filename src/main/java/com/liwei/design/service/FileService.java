@@ -169,6 +169,7 @@ public class FileService {
         throws IOException  {
         MultipartHttpServletRequest params=((MultipartHttpServletRequest) request);
         List<MultipartFile> files = params.getFiles("uploadDir");
+        String parentPath = params.getParameter("dirPath");
         double sizeMB = 0.0;
         SecurityContextImpl securityContextImpl = (SecurityContextImpl) request
             .getSession().getAttribute("SPRING_SECURITY_CONTEXT");
@@ -190,25 +191,10 @@ public class FileService {
         // https://blog.csdn.net/bedisdover/article/details/52579713
         //https://blog.csdn.net/wenzhihui_2010/article/details/39397837
             try {
-                // 解析获取的文件
-                List<FileItem> fileItems = getFileItem(request);
-                String parentPath = null;
-                // 处理上传的文件
-                for (FileItem fileItem : fileItems) {
-                    if (fileItem.isFormField()) {//普通表单输入项
-                        parentPath = fileItem.getString();
-                        break;
-                    }
-                }
-
-                for (FileItem fileItem : fileItems) {
-                    if (!fileItem.isFormField()) {//文件输入项
-                        String fileName = fileItem.getName();
-                        // 获取文件的各级目录
-                        List<String> separatedPath = getSeparatedPath(fileName);
-
-                        // 扫描文件目录结构
-                        StringBuilder temp = new StringBuilder(root + parentPath);
+                for (MultipartFile file: files) {
+                    String fileName = file.getOriginalFilename();
+                    List<String> separatedPath = getSeparatedPath(fileName);
+                    StringBuilder temp = new StringBuilder(root + parentPath);
                         for (int i = 0; i < separatedPath.size() - 1; i++) {
                             temp.append("/").append(separatedPath.get(i));
                             // 若父级目录目录不存在，创建之
@@ -218,12 +204,42 @@ public class FileService {
                         }
 
                         // 写入文件
-                        writeFile(fileItem, temp.toString(), separatedPath.get(separatedPath.size() - 1));
-                    }
+                        uploadFile(file, parentPath, request);
                 }
-            } catch (FileUploadException e) {
-                response.getWriter().print("文件夹过大,无法上传");
-            } catch (Exception e) {
+                // 解析获取的文件
+//                List<FileItem> fileItems = getFileItem(request);
+//                String parentPath = null;
+//                // 处理上传的文件
+//                for (FileItem fileItem : fileItems) {
+//                    if (fileItem.isFormField()) {//普通表单输入项
+//                        parentPath = fileItem.getString();
+//                        break;
+//                    }
+//                }
+//
+//                for (FileItem fileItem : fileItems) {
+//                    if (!fileItem.isFormField()) {//文件输入项
+//                        String fileName = fileItem.getName();
+//                        // 获取文件的各级目录
+//                        List<String> separatedPath = getSeparatedPath(fileName);
+//
+//                        // 扫描文件目录结构
+//                        StringBuilder temp = new StringBuilder(root + parentPath);
+//                        for (int i = 0; i < separatedPath.size() - 1; i++) {
+//                            temp.append("/").append(separatedPath.get(i));
+//                            // 若父级目录目录不存在，创建之
+//                            if (!new File(temp.toString()).exists()) {
+//                                new File(temp.toString()).mkdir();
+//                            }
+//                        }
+//
+//                        // 写入文件
+//                        writeFile(fileItem, temp.toString(), separatedPath.get(separatedPath.size() - 1));
+//                    }
+//                }
+//            } catch (FileUploadException e) {
+//                response.getWriter().print("文件夹过大,无法上传");
+              } catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -587,11 +603,12 @@ public class FileService {
         throws FileUploadException {
         DiskFileItemFactory factory = new DiskFileItemFactory();
         // 设置内存中存储文件的最大值
-        factory.setSizeThreshold(36700160);
+
         // 创建一个新的文件上传处理程序
         ServletFileUpload upload = new ServletFileUpload(factory);
         // 设置最大上传的文件大小
-        upload.setSizeMax(36700160);
+
+        upload.setHeaderEncoding("UTF-8");
 
         return upload.parseRequest(request);
     }
