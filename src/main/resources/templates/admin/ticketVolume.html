@@ -10,6 +10,7 @@
 <div class="material-design-layout">
     <div th:replace="common::about"></div>
     <div th:replace="common::fileinput"></div>
+    <div th:replace="common::dirinput"></div>
     <div th:replace="common::navigation"></div>
     <div th:replace="common::siderleft"></div>
     <div th:replace="common::siderright"></div>
@@ -18,8 +19,8 @@
             <div class="panel-body">
                 <div id="toolbar" class="btn-group">
                     <div class="form-group">
-                        <input placeholder="申请用户" name="username" id="username"/>
-                        <a id="search" name="search" type="button" class="btn btn-primary">
+                        <input placeholder="申请用户" name="volumeName" id="volumeName"/>
+                        <a id="search" name="search" type="button" class="btn btn-primary" onclick="SearchForVolume()">
                             <span class="glyphicon glyphicon-search" aria-hidden="true"></span>检索
                         </a>
                     </div>

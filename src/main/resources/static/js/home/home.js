@@ -190,7 +190,7 @@ function getFileInputList() {
                 var text = document.createTextNode(data[i].substring(27));
                 optionNode.appendChild(text);
                 document.getElementById("path").appendChild(optionNode);
-                document.getElementById("dirpath").appendChild(optionNode);
+                document.getElementById("dirPath").appendChild(optionNode);
             }
         }
     });
@@ -238,7 +238,7 @@ function OtherDownloadZip(e) {
 
 function uploadDir() {
     var dir = $("#uploadDir").val();
-    if (dir.isEmpty()) {
+    if (dir==='') {
         confirm("请选择需要上传的文件夹");
         return;
     }

@@ -33,13 +33,13 @@ $(function init() {
                 var suffix = row.path.substring(index + 1);
                 switch (suffix) {
                     case "jpg" :
-                        return '<img src="http://localhost:8080/file/getView"' + row.path.substring(27) + 'width="100"/>';
+                        return '<img src="http://localhost:8080/file/getView' + row.path + '"width="100"/>';
                         break;
                     case "png" :
-                        return '<img src="http://localhost:8080/file/getView"' + row.path.substring(27) + 'width="100"/>';
+                        return '<img src="http://localhost:8080/file/getView' + row.path + '"width="100"/>';
                         break;
                     case "video" :
-                        return '<video src="http://localhost:8080/file/download?other&path=' + row.path.substring(27)
+                        return '<video src="http://localhost:8080/file/download?other&path=' + row.path
                             + '" poster="http://localhost:8080/img/Youtube.png" width="100"></video>';
                         break;
                     default :
@@ -55,10 +55,15 @@ $(function init() {
     });
 });
 
+function Search() {
+    $("#shareTable").bootstrapTable('refresh',{
+        silent:true
+    });
+}
 
 function queryParams(params) {
     var temp = {  //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
-        username: $("#username").val(),
+        username: $("#ticketName").val(),
         size: params.pageSize,
         page: params.pageNumber-1,
         sort:params.sortName==undefined ? '' : params.sortName+","+params.sortOrder
@@ -122,10 +127,10 @@ function subTable(index, row, $detail) {
                 var suffix = row.path.substring(index + 1);
                 switch (suffix) {
                     case "jpg" :
-                        return '<img src="http://localhost:8080/file/getView"' + row.path.substring(27) + 'width="100"/>';
+                        return '<img src="http://localhost:8080/file/getView' + row.path.substring(27) + '"width="100"/>';
                         break;
                     case "png" :
-                        return '<img src="http://localhost:8080/file/getView"' + row.path.substring(27) + 'width="100"/>';
+                        return '<img src="http://localhost:8080/file/getView' + row.path.substring(27) + '"width="100"/>';
                         break;
                     case "video" :
                         return '<video src="http://localhost:8080/file/download?other&path=' + row.path.substring(27)

@@ -109,10 +109,6 @@ public class FileService {
                     list.add(map);
                 }
             }
-        } else {
-            Map<String, String> map = new HashMap<>();
-            map.put("path", file.getAbsolutePath());
-            list.add(map);
         }
         return list;
     }

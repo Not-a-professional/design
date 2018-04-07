@@ -91,7 +91,7 @@ function fillsList(data) {
         inputNode1.setAttribute("readonly", "readonly");
         var inputNode2 = document.createElement("input");
         inputNode2.setAttribute("type", "text");
-        inputNode2.setAttribute("value", "私密路径：http://localhost:8080/s/" + data[i].spath);
+        inputNode2.setAttribute("value", "提取路径：http://localhost:8080/s/" + data[i].spath);
         inputNode2.setAttribute("style", "border:none;outline:none;width:100%");
         inputNode2.setAttribute("readonly", "readonly");
         var inputNode3 = document.createElement("input");
