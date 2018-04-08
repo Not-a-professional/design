@@ -62,12 +62,14 @@ $(function init() {
         var filesSize = 36700160; //35MB
         if(actual_filesCount > filesCount){
             confirm("文件过多，单次最多可上传"+filesCount+"个文件");
+            document.getElementById("uploadDir").val("");
             return;
         }
         for (var i = 0, f; f = files[i]; ++i){
             actual_filesSize += f.size;
             if(actual_filesSize > filesSize){
                 confirm("单次文件夹上传不能超过"+filesSize/1024/1024+"MB");
+                document.getElementById("uploadDir").val("");
                 return;
             }
         }
