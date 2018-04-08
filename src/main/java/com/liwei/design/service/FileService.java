@@ -178,6 +178,13 @@ public class FileService {
         User user = ur.findOne(username);
         Map<String, Object> res = new HashMap<>();
         for (MultipartFile file: files) {
+            if (!file.getOriginalFilename().endsWith("jpg")
+                && !file.getOriginalFilename().endsWith("png")
+                && !file.getOriginalFilename().endsWith("mp4")) {
+                res.put("res", "fail");
+                res.put("msg", "目前只接受jpg,png,mp4格式文件上传！");
+                return res;
+            }
             sizeMB = sizeMB + file.getBytes().length / 1024.00;
             if (user.getUsedVolume().add(BigDecimal.valueOf(sizeMB))
                 .compareTo(user.getVolume()) == 1) {
