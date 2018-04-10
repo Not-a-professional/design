@@ -36,7 +36,7 @@ $(function init() {
         showCaption: false,//是否显示标题
         browseClass: "btn btn-primary", //按钮样式
         dropZoneEnabled: true,//是否显示拖拽区域
-        maxFileSize:0,//0表示不限制文件大小
+        maxFileSize:35840,//0表示不限制文件大小
         maxFileCount: 1, //表示允许同时上传的最大文件个数
         enctype: 'multipart/form-data',
         validateInitialCount:true,
