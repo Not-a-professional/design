@@ -1,21 +1,20 @@
 package com.liwei.design.service;
 
+import com.liwei.design.model.Trash;
 import com.liwei.design.model.User;
 import com.liwei.design.model.ticketVolume;
 import com.liwei.design.othermodel.hotShare;
+import com.liwei.design.repo.DeleteRepository;
 import com.liwei.design.repo.UserRepository;
 import com.liwei.design.repo.ticketVolumeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +25,8 @@ public class UserService {
     private UserRepository uRepo;
     @Autowired
     private ticketVolumeRepository tvRepo;
+    @Autowired
+    private DeleteRepository dRepo;
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -43,6 +44,14 @@ public class UserService {
         String sql = stringBuilder.toString();
 
         return jdbcTemplate.query(sql, (rs, rowsNum) -> rs.getString("name"));
+    }
+
+    public List<Trash> getTrashList(HttpServletRequest request, Pageable pageable) {
+        SecurityContextImpl securityContextImpl = (SecurityContextImpl) request
+                .getSession().getAttribute("SPRING_SECURITY_CONTEXT");
+        Authentication authentication = securityContextImpl.getAuthentication();
+        String username = authentication.getName();
+        return dRepo.findAllByUser(username, pageable);
     }
 
     public List<hotShare> getHotShare(HttpServletRequest request) {

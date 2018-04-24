@@ -15,10 +15,10 @@ public class QuartzConfig {
     private MyJobFactory myJobFactory;
 
     @Bean
-    public SchedulerFactoryBean schedulerFactory(Trigger deleteTrashTriger) {
+    public SchedulerFactoryBean schedulerFactory(Trigger deleteTrashTrigger, Trigger deleteShareTrigger) {
         SchedulerFactoryBean schedulerFactoryBean = new SchedulerFactoryBean();
         schedulerFactoryBean.setJobFactory(myJobFactory);
-        schedulerFactoryBean.setTriggers(deleteTrashTriger);
+        schedulerFactoryBean.setTriggers(deleteTrashTrigger, deleteShareTrigger);
         return schedulerFactoryBean;
     }
 
@@ -32,8 +32,24 @@ public class QuartzConfig {
     public CronTriggerFactoryBean deleteTrashTrigger(JobDetail deleteTrashDetail) {
         CronTriggerFactoryBean trigger = new CronTriggerFactoryBean();
         trigger.setJobDetail(deleteTrashDetail);
-        trigger.setCronExpression("0/6 * * * * ?");// 表示每隔6秒钟执行一次
+        trigger.setCronExpression("0 0 9 * * ?");
         trigger.setName("deleteTrigger");// trigger的name
+        return trigger;
+
+    }
+
+    @Bean("deleteShareDetail")
+    public JobDetail deleteShareDetail() {
+        return JobBuilder.newJob(DeleteShareTask.class).withIdentity("deleteShareTask")
+                .storeDurably().build();
+    }
+
+    @Bean(name = "deleteShareTrigger")
+    public CronTriggerFactoryBean deleteShareTrigger(JobDetail deleteShareDetail) {
+        CronTriggerFactoryBean trigger = new CronTriggerFactoryBean();
+        trigger.setJobDetail(deleteShareDetail);
+        trigger.setCronExpression("0 0 9 * * ?");
+        trigger.setName("shareTrigger");// trigger的name
         return trigger;
 
     }

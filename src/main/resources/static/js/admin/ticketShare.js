@@ -73,38 +73,42 @@ function queryParams(params) {
 
 //分享审核通过
 function Auth(e) {
-    $.ajax({
-        url:"/admin/shareAuth?id=" + e,
-        type:"GET",
-        dataType:"json",
-        success: function () {
-            alert("操作成功!");
-            $("#shareTable").bootstrapTable('refresh',{
-                silent:true
-            });
-        },
-        error: function () {
-            alert("操作失败！");
-        }
-    })
+    if ("确定通过？") {
+        $.ajax({
+            url:"/admin/shareAuth?id=" + e,
+            type:"GET",
+            dataType:"json",
+            success: function () {
+                alert("操作成功!");
+                $("#shareTable").bootstrapTable('refresh',{
+                    silent:true
+                });
+            },
+            error: function () {
+                alert("操作失败！");
+            }
+        })
+    }
 }
 
 //分享不通过
 function unAuth(e) {
-    $.ajax({
-        url:"/admin/shareUnauth?id=" + e,
-        type:"GET",
-        dataType:"json",
-        success: function (data) {
-            alert("操作成功!");
-            $("#shareTable").bootstrapTable('refresh',{
-                silent:true
-            });
-        },
-        error: function () {
-            alert("操作失败！");
-        }
-    })
+    if ("确定不通过？") {
+        $.ajax({
+            url:"/admin/shareUnauth?id=" + e,
+            type:"GET",
+            dataType:"json",
+            success: function (data) {
+                alert("操作成功!");
+                $("#shareTable").bootstrapTable('refresh',{
+                    silent:true
+                });
+            },
+            error: function () {
+                alert("操作失败！");
+            }
+        })
+    }
 }
 
 //递归生成子表

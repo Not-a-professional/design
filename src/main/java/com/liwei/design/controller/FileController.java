@@ -68,9 +68,22 @@ public class FileController {
 
     @RequestMapping("/delete")
     @ResponseBody
-    public Map<String, String> deleteFile(@RequestParam String path) {
+    public Map<String, String> deleteFile(HttpServletRequest request, @RequestParam String path) {
         Map<String, String> res = new HashMap<String, String>();
-        res.put("res", fileService.deleteFile(path));
+        res.put("res", fileService.deleteForTrash(request, path));
+        return res;
+    }
+
+    /**
+     * 恢复回收站的文件
+     * @param id
+     * @return
+     */
+    @RequestMapping("/rollBack")
+    @ResponseBody
+    public Map<String, String> rollBackFile(@RequestParam String id) {
+        Map<String, String> res = new HashMap<String, String>();
+        res.put("res", fileService.rollBack(id));
         return res;
     }
 
@@ -109,15 +122,15 @@ public class FileController {
 
     @RequestMapping("/sSharePath")
     @ResponseBody
-    public Map<String, String> getSharePassword(String url, HttpServletRequest request) {
-        return fileService.sSharePath(url, request);
+    public Map<String, String> getSharePassword(String url, HttpServletRequest request, String expireTime) {
+        return fileService.sSharePath(url, request, expireTime);
     }
 
     @RequestMapping("/sharePath")
     @ResponseBody
-    public Map<String, String> applyForShare(String url, HttpServletRequest request) {
+    public Map<String, String> applyForShare(String url, HttpServletRequest request, String expireTime) {
         Map<String, String> res = new HashMap<>();
-        res.put("sPath", fileService.sharePath(url, request));
+        res.put("sPath", fileService.sharePath(url, request, expireTime));
         return res;
     }
 

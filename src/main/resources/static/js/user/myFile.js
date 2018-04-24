@@ -134,18 +134,20 @@ function Edit(e) {
 }
 
 function Delete(e) {
-    $.ajax({
-        url:"/file/delete?path=" + e,
-        dataType:"json",
-        success: function (data) {
-            if (data['res'] == "success") {
-                $("#body2").empty();
-                getList(path);
-            } else {
-                alert("删除失败");
+    if (confirm("确定删除？")) {
+        $.ajax({
+            url:"/file/delete?path=" + e,
+            dataType:"json",
+            success: function (data) {
+                if (data['res'] == "success") {
+                    $("#body2").empty();
+                    getList(path);
+                } else {
+                    alert("删除失败");
+                }
             }
-        }
-    });
+        });
+    }
 }
 
 function Enter(e) {
@@ -175,10 +177,11 @@ function Share(e) {
 
 function generateShare() {
     var value = $("input[name='radio']:checked").val();
+    var expireTime = document.getElementById("expireTime").value;
     var sharePath = $("#sharePath").val();
     if (value == 0) {
         $.ajax({
-            url:"/file/sharePath?url=" + sharePath,
+            url:"/file/sharePath?url=" + sharePath + "&expireTime=" + expireTime,
             type:"GET",
             dataType:"json",
             success: function (data) {
@@ -196,7 +199,7 @@ function generateShare() {
         })
     } else {
         $.ajax({
-            url:"/file/sSharePath?url=" + sharePath,
+            url:"/file/sSharePath?url=" + sharePath + "&expireTime=" + expireTime,
             type:"GET",
             dataType:"json",
             success: function (data) {

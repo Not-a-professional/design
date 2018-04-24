@@ -1,8 +1,10 @@
 package com.liwei.design.service;
 
+import com.liwei.design.model.Trash;
 import com.liwei.design.model.Share;
 import com.liwei.design.model.User;
 import com.liwei.design.model.ticketShare;
+import com.liwei.design.repo.DeleteRepository;
 import com.liwei.design.repo.ShareRepository;
 import com.liwei.design.repo.UserRepository;
 import com.liwei.design.repo.ticketShareRepository;
@@ -23,9 +25,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.math.BigDecimal;
-import java.security.InvalidKeyException;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -38,6 +39,8 @@ public class FileService {
     private ticketShareRepository ts;
     @Autowired
     private UserRepository ur;
+    @Autowired
+    private DeleteRepository dr;
 
     private final static String root = "/Users/liwei/Desktop/design";
 
@@ -83,7 +86,7 @@ public class FileService {
         File[] files = file.listFiles();
         if (files != null) {
             for (File temp : files) {
-                if (temp.getAbsolutePath().endsWith(".DS_Store")) {
+                if (temp.getAbsolutePath().endsWith(".DS_Store") || !dr.findAllByPath(root + path).isEmpty()) {
 
                 } else {
                     fileList.add(temp.getAbsolutePath());
@@ -116,6 +119,26 @@ public class FileService {
             }
         }
         return list;
+    }
+
+    public String rollBack(String id) {
+        dr.delete(id);
+        return "success";
+    }
+
+    public String deleteForTrash(HttpServletRequest request, String path) {
+        Trash trash = new Trash();
+        trash.setDate(new Timestamp(new Date().getTime()));
+        trash.setPath(path);
+        SecurityContextImpl securityContextImpl = (SecurityContextImpl) request
+                .getSession().getAttribute("SPRING_SECURITY_CONTEXT");
+        Authentication authentication = securityContextImpl.getAuthentication();
+        String username = authentication.getName();
+        trash.setUser(username);
+        if (dr.saveAndFlush(trash) != null) {
+            return "success";
+        }
+        return "fail";
     }
 
     public String deleteFile(String path) {
@@ -219,39 +242,6 @@ public class FileService {
                         // 写入文件
                         uploadFile(file, parentPath, request);
                 }
-                // 解析获取的文件
-//                List<FileItem> fileItems = getFileItem(request);
-//                String parentPath = null;
-//                // 处理上传的文件
-//                for (FileItem fileItem : fileItems) {
-//                    if (fileItem.isFormField()) {//普通表单输入项
-//                        parentPath = fileItem.getString();
-//                        break;
-//                    }
-//                }
-//
-//                for (FileItem fileItem : fileItems) {
-//                    if (!fileItem.isFormField()) {//文件输入项
-//                        String fileName = fileItem.getName();
-//                        // 获取文件的各级目录
-//                        List<String> separatedPath = getSeparatedPath(fileName);
-//
-//                        // 扫描文件目录结构
-//                        StringBuilder temp = new StringBuilder(root + parentPath);
-//                        for (int i = 0; i < separatedPath.size() - 1; i++) {
-//                            temp.append("/").append(separatedPath.get(i));
-//                            // 若父级目录目录不存在，创建之
-//                            if (!new File(temp.toString()).exists()) {
-//                                new File(temp.toString()).mkdir();
-//                            }
-//                        }
-//
-//                        // 写入文件
-//                        writeFile(fileItem, temp.toString(), separatedPath.get(separatedPath.size() - 1));
-//                    }
-//                }
-//            } catch (FileUploadException e) {
-//                response.getWriter().print("文件夹过大,无法上传");
               } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -366,7 +356,7 @@ public class FileService {
         return "1";
     }
 
-    public Map<String, String> sSharePath(String url, HttpServletRequest request) {
+    public Map<String, String> sSharePath(String url, HttpServletRequest request, String expireTime) {
         Map<String, String> res = new HashMap<String, String>();
         if (isExist(url)) {
             res.put("res", "fail");
@@ -399,7 +389,7 @@ public class FileService {
         return res;
     }
 
-    public String sharePath(String url, HttpServletRequest request) {
+    public String sharePath(String url, HttpServletRequest request, String c) {
         if (isExist(url)) {
             return "fail";
         }
@@ -491,7 +481,7 @@ public class FileService {
         File[] files = file.listFiles();
         if (files != null) {
             for (File temp : files) {
-                if (temp.isDirectory()) {
+                if (temp.isDirectory() && dr.findAllByPath(temp.getAbsolutePath()).isEmpty()) {
                     dirList.add(temp.getAbsolutePath());
                     getAllDir(dirList, temp);
                 }

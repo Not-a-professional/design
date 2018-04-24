@@ -7,12 +7,12 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "delete")
+@Table(name = "trash")
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@NamedQuery(name = "Delete.findAll", query = "select d from Delete d")
-public class Delete implements Serializable {
+@NamedQuery(name = "Trash.findAll", query = "select d from Trash d")
+public class Trash implements Serializable {
     @Id
     @Getter
     @Setter
