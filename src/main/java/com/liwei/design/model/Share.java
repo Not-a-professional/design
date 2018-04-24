@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "share")
@@ -43,6 +44,10 @@ public class Share implements Serializable{
     @Getter
     @Setter
     private long download;
+
+    @Getter
+    @Setter
+    private Timestamp expiredTime;
 
 }
 

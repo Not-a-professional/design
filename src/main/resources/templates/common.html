@@ -73,6 +73,12 @@
                     上传文件夹
                 </a>
             </li>
+            <li>
+                <a th:href="@{/user/trash}" th:class="material-btn-flat-white">
+                    <span class="glyphicon glyphicon-trash"></span>
+                    回收站
+                </a>
+            </li>
             <li sec:authorize="hasAuthority('ROLE_ADMIN')">
                 <a th:href="@{/admin/ticketShare}" th:class="material-btn-flat-white">
                     <span class="glyphicon glyphicon-tasks"></span>

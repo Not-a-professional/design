@@ -33,6 +33,13 @@ public class UserController {
         return share;
     }
 
+    @RequestMapping("/trash")
+    public ModelAndView trash() {
+        ModelAndView trash = new ModelAndView("user/trash");
+        trash.addObject("title", "回收站");
+        return trash;
+    }
+
     @RequestMapping("/getFriend")
     @ResponseBody
     public List<String> getFirend(HttpServletRequest request) {
