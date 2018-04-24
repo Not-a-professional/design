@@ -38,9 +38,9 @@ $(function init() {
                     case "png" :
                         return '<img src="http://localhost:8080/file/getView' + row.path + '"width="100"/>';
                         break;
-                    case "video" :
+                    case "mp4" :
                         return '<video src="http://localhost:8080/file/download?other&path=' + row.path
-                            + '" poster="http://localhost:8080/img/Youtube.png" width="100"></video>';
+                            + '" controls="controls" width="50%"></video>';
                         break;
                     default :
                         return row.path;
@@ -95,7 +95,7 @@ function unAuth(e) {
         url:"/admin/shareUnauth?id=" + e,
         type:"GET",
         dataType:"json",
-        success: function () {
+        success: function (data) {
             alert("操作成功!");
             $("#shareTable").bootstrapTable('refresh',{
                 silent:true
@@ -132,12 +132,12 @@ function subTable(index, row, $detail) {
                     case "png" :
                         return '<img src="http://localhost:8080/file/getView' + row.path.substring(27) + '"width="100"/>';
                         break;
-                    case "video" :
+                    case "mp4" :
                         return '<video src="http://localhost:8080/file/download?other&path=' + row.path.substring(27)
-                            + '" poster="http://localhost:8080/img/Youtube.png" width="100"></video>';
+                            + '" controls="controls" width="50%"></video>';
                         break;
                     default :
-                        return row.path;
+                        return row.path.substring(27);
                         break;
                 }
             }

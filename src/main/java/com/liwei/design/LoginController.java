@@ -129,8 +129,7 @@ public class LoginController {
 
     @RequestMapping("/forgetPassword")
     @ResponseBody
-    public Map<String, String> forgetPassword(HttpServletRequest request, String name) 
-        throws UnsupportedEncodingException, MessagingException {
+    public Map<String, String> forgetPassword(HttpServletRequest request, String name) {
         String index = "123456789zxcvbnmasdfghjklqwertyuiopZXCVBNMASDFGHJKLQWERTYUIOP";
         Random random = new Random();
         StringBuilder sb = new StringBuilder();
@@ -139,16 +138,25 @@ public class LoginController {
         }
 
         String checkCode = sb.toString();
+
+        User user = uRepo.findAllByUsername(name);
+        String html = "验证码:" + checkCode;
+        Map<String, String> res = new HashMap<String, String>();
+        try {
+            MailService.sendHtmlMail(user.getEmail(), "找回密码提示", html);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            res.put("fail", "fail");
+            return res;
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            res.put("fail", "fail");
+            return res;
+        }
         HttpSession session = request.getSession();
 
         session.setAttribute(CHECK_CODE, checkCode);
         session.setAttribute(FORGET_NAME, name);
-
-        User user = uRepo.findAllByUsername(name);
-        String html = "验证码:" + checkCode;
-        MailService.sendHtmlMail(user.getEmail(), "找回密码提示", html);
-        
-        Map<String, String> res = new HashMap<String, String>();
         res.put("success", "success");
         return res;
     }

@@ -41,7 +41,7 @@ $(function init() {
         enctype: 'multipart/form-data',
         validateInitialCount:true,
         uploadExtraData: function () {
-            var path = document.getElementById("path").value;
+            var path = document.getElementById("filePath").value;
             return {"path": path};
         }
     }).on("fileuploaded", function (event, data, previewId, index) {
@@ -62,14 +62,14 @@ $(function init() {
         var filesSize = 36700160; //35MB
         if(actual_filesCount > filesCount){
             confirm("文件过多，单次最多可上传"+filesCount+"个文件");
-            document.getElementById("uploadDir").val("");
+            document.getElementById("uploadDir").setAttribute("value", "");
             return;
         }
         for (var i = 0, f; f = files[i]; ++i){
             actual_filesSize += f.size;
             if(actual_filesSize > filesSize){
                 confirm("单次文件夹上传不能超过"+filesSize/1024/1024+"MB");
-                document.getElementById("uploadDir").val("");
+                document.getElementById("uploadDir").setAttribute("value", "");
                 return;
             }
         }
@@ -191,7 +191,22 @@ function getFileInputList() {
                 }
                 var text = document.createTextNode(data[i].substring(27));
                 optionNode.appendChild(text);
-                document.getElementById("path").appendChild(optionNode);
+                document.getElementById("filePath").appendChild(optionNode);
+            }
+        }
+    });
+    $.ajax({
+        url: "/file/getDir",
+        dataType: "json",
+        success: function (data) {
+            for (var i = 0; i< data.length; ++i) {
+                var optionNode = document.createElement("option");
+                optionNode.setAttribute("value", data[i].substring(27));
+                if (i == 0) {
+                    optionNode.setAttribute("selected", "selected");
+                }
+                var text = document.createTextNode(data[i].substring(27));
+                optionNode.appendChild(text);
                 document.getElementById("dirPath").appendChild(optionNode);
             }
         }
@@ -255,10 +270,11 @@ function uploadDir() {
         processData: false,
         dataType: "json",
         success: function (data) {
-            if (data.fail) {
-                confirm(data.fail);
+            if (data.res) {
+                confirm(data.msg);
+            } else {
+                confirm("上传成功！");
             }
-            confirm("上传成功！");
         },
         error: function (data) {
             confirm("上传失败！");

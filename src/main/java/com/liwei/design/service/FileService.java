@@ -97,7 +97,12 @@ public class FileService {
 
     public List<Map<String, String>> getAdminFileList(String path) {
         List<Map<String, String>> list = new ArrayList<>();
-        File file = new File(root + path);
+        File file;
+        if (path.startsWith(root)) {
+            file = new File(path);
+        } else {
+            file = new File(root + path);
+        }
         File[] files = file.listFiles();
         if (files != null) {
             for (File temp : files) {
@@ -180,7 +185,8 @@ public class FileService {
         for (MultipartFile file: files) {
             if (!file.getOriginalFilename().endsWith("jpg")
                 && !file.getOriginalFilename().endsWith("png")
-                && !file.getOriginalFilename().endsWith("mp4")) {
+                && !file.getOriginalFilename().endsWith("mp4")
+                && !file.getOriginalFilename().endsWith(".DS_Store")) {
                 res.put("res", "fail");
                 res.put("msg", "目前只接受jpg,png,mp4格式文件上传！");
                 return res;

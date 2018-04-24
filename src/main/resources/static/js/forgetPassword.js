@@ -18,6 +18,8 @@ function sendForgetPasswordEmail() {
             if (data.success) {
                 $('#forgettextmain').empty();
                 getCheckCodePop();
+            } else if (data.fail) {
+                confirm("邮件发送失败！");
             }
         },
         error: function (data) {
