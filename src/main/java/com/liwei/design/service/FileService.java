@@ -4,7 +4,7 @@ import com.liwei.design.model.Trash;
 import com.liwei.design.model.Share;
 import com.liwei.design.model.User;
 import com.liwei.design.model.ticketShare;
-import com.liwei.design.repo.DeleteRepository;
+import com.liwei.design.repo.TrashRepository;
 import com.liwei.design.repo.ShareRepository;
 import com.liwei.design.repo.UserRepository;
 import com.liwei.design.repo.ticketShareRepository;
@@ -40,7 +40,7 @@ public class FileService {
     @Autowired
     private UserRepository ur;
     @Autowired
-    private DeleteRepository dr;
+    private TrashRepository dr;
 
     private final static String root = "/Users/liwei/Desktop/design";
 

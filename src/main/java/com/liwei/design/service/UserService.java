@@ -4,7 +4,7 @@ import com.liwei.design.model.Trash;
 import com.liwei.design.model.User;
 import com.liwei.design.model.ticketVolume;
 import com.liwei.design.othermodel.hotShare;
-import com.liwei.design.repo.DeleteRepository;
+import com.liwei.design.repo.TrashRepository;
 import com.liwei.design.repo.UserRepository;
 import com.liwei.design.repo.ticketVolumeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class UserService {
     @Autowired
     private ticketVolumeRepository tvRepo;
     @Autowired
-    private DeleteRepository dRepo;
+    private TrashRepository dRepo;
     @Autowired
     private JdbcTemplate jdbcTemplate;
 

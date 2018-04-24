@@ -1,7 +1,7 @@
 package com.liwei.design.quartz;
 
 import com.liwei.design.model.Trash;
-import com.liwei.design.repo.DeleteRepository;
+import com.liwei.design.repo.TrashRepository;
 import com.liwei.design.service.FileService;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -15,7 +15,7 @@ public class DeleteTrashTask extends QuartzJobBean {
     @Autowired
     private FileService fileService;
     @Autowired
-    private DeleteRepository dr;
+    private TrashRepository dr;
 
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {

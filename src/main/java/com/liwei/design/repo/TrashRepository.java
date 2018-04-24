@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Repository
-public interface DeleteRepository extends JpaRepository<Trash, String> {
+public interface TrashRepository extends JpaRepository<Trash, String> {
     @Query("select d from Trash d where d.path = ?1")
     List<Trash> findAllByPath(String path);
 
