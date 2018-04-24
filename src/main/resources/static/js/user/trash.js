@@ -26,7 +26,10 @@ $(function init() {
             title: '文件(夹)'
         },{
             field: 'date',
-            title: '删除日期'
+            title: '删除日期',
+            formatter: function (value, row, index) {
+                return new Date(parseInt(row.date)).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ")
+            }
         }]
     });
 });
