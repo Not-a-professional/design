@@ -73,18 +73,21 @@ function queryParams(params) {
 
 //分享审核通过
 function Auth(e) {
-    if ("确定通过？") {
+    if (confirm("确定通过？")) {
+        $('#loading').slideDown('400');
         $.ajax({
             url:"/admin/shareAuth?id=" + e,
             type:"GET",
             dataType:"json",
             success: function () {
+                $('#loading').slideUp('400');
                 alert("操作成功!");
                 $("#shareTable").bootstrapTable('refresh',{
                     silent:true
                 });
             },
             error: function () {
+                $('#loading').slideUp('400');
                 alert("操作失败！");
             }
         })
@@ -93,18 +96,21 @@ function Auth(e) {
 
 //分享不通过
 function unAuth(e) {
-    if ("确定不通过？") {
+    if (confirm("确定不通过？")) {
+        $('#loading').slideDown('400');
         $.ajax({
             url:"/admin/shareUnauth?id=" + e,
             type:"GET",
             dataType:"json",
             success: function (data) {
+                $('#loading').slideUp('400');
                 alert("操作成功!");
                 $("#shareTable").bootstrapTable('refresh',{
                     silent:true
                 });
             },
             error: function () {
+                $('#loading').slideUp('400');
                 alert("操作失败！");
             }
         })

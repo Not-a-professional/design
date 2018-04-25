@@ -32,7 +32,7 @@ public class QuartzConfig {
     public CronTriggerFactoryBean deleteTrashTrigger(JobDetail deleteTrashDetail) {
         CronTriggerFactoryBean trigger = new CronTriggerFactoryBean();
         trigger.setJobDetail(deleteTrashDetail);
-        trigger.setCronExpression("0 0 9 * * ?");
+        trigger.setCronExpression("0 30 9 * * ?");
         trigger.setName("deleteTrigger");// trigger的name
         return trigger;
 
@@ -48,7 +48,7 @@ public class QuartzConfig {
     public CronTriggerFactoryBean deleteShareTrigger(JobDetail deleteShareDetail) {
         CronTriggerFactoryBean trigger = new CronTriggerFactoryBean();
         trigger.setJobDetail(deleteShareDetail);
-        trigger.setCronExpression("0 0 9 * * ?");
+        trigger.setCronExpression("0 30 9 * * ?");
         trigger.setName("shareTrigger");// trigger的name
         return trigger;
 

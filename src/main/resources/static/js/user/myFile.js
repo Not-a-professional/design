@@ -173,6 +173,7 @@ function Share(e) {
     document.getElementById("shareName").innerHTML = "分享文件(夹): " + name;
     $("#sharePath").attr("value", e);
     $("#share").attr("class", "m-card bit-3 on-screen");
+    $("#sPath").empty();
 }
 
 function generateShare() {
@@ -186,10 +187,8 @@ function generateShare() {
             dataType:"json",
             success: function (data) {
                 if (data['sPath'] == 'fail') {
-                    $("#sPath").empty();
                     $("#sPath").append('<ul><li>' + '您的前一次申请还在审核中，请耐心等待！' +'</li></ul>')
                 } else {
-                    $("#sPath").empty();
                     $("#sPath").append('<ul><li>' + '公开分享申请已提交，请耐心等待管理员审核！' + '</li></ul>')
                 }
             },
@@ -204,10 +203,8 @@ function generateShare() {
             dataType:"json",
             success: function (data) {
                 if (data['res'] == 'fail') {
-                    $("#sPath").empty();
                     $("#sPath").append('<ul><li>' + '您的前一次申请还在审核中，请耐心等待！' +'</li></ul>')
                 } else {
-                    $("#sPath").empty();
                     $("#sPath").append('<ul><li>' + '私密链接：' + data['sPath']
                         + '</li><li>' + '提取码：' +  data['secret'] + '</li><li>'
                         + '请耐心等待管理员审核！' +'</li></ul>')

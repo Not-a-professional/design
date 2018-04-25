@@ -50,18 +50,21 @@ function queryParams(params) {
 
 //容量审核通过
 function Auth(e) {
-    if ("确定通过？") {
+    if (confirm("确定通过？")) {
+        $('#loading').slideDown('400');
         $.ajax({
             url:"/admin/volumeAuth?id=" + e,
             type:"GET",
             dataType:"json",
             success: function () {
+                $('#loading').slideUp('400');
                 alert("操作成功!");
                 $("#volumeTable").bootstrapTable('refresh',{
                     silent:true
                 });
             },
             error: function () {
+                $('#loading').slideUp('400');
                 alert("操作失败！");
             }
         })
@@ -70,18 +73,21 @@ function Auth(e) {
 
 //申请容量不通过
 function unAuth(e) {
-    if ("确定不通过？") {
+    if (confirm("确定不通过？")) {
+        $('#loading').slideDown('400');
         $.ajax({
             url:"/admin/unAuthVolume?id=" + e,
             type:"GET",
             dataType:"json",
             success: function () {
+                $('#loading').slideUp('400');
                 alert("操作成功!");
                 $("#volumeTable").bootstrapTable('refresh',{
                     silent:true
                 });
             },
             error: function () {
+                $('#loading').slideUp('400');
                 alert("操作失败！");
             }
         })

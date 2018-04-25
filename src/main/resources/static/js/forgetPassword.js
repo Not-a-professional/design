@@ -54,13 +54,13 @@ function findPassword() {
         dataType: "json",
         success: function (data) {
             if (data.password) {
-                confirm("您的密码是：" + data.password);
+                alert("您的密码是：" + data.password);
             } else {
                 alert("找回密码失败！");
             }
         },
         error: function (data) {
-            confirm("找回密码失败！" + data);
+            alert("找回密码失败！" + data);
         }
     })
 }

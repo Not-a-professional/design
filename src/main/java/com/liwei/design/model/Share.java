@@ -47,7 +47,7 @@ public class Share implements Serializable{
 
     @Getter
     @Setter
-    private Timestamp expiredTime;
+    private Timestamp expire;
 
 }
 

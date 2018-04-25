@@ -137,6 +137,7 @@ function cancelShare(e) {
             alert("取消成功");
             $("#body2").empty();
             getList();
+            getsList();
         },
         error: function () {
             alert("取消失败");

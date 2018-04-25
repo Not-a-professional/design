@@ -86,7 +86,7 @@ public class FileService {
         File[] files = file.listFiles();
         if (files != null) {
             for (File temp : files) {
-                if (temp.getAbsolutePath().endsWith(".DS_Store") || !dr.findAllByPath(root + path).isEmpty()) {
+                if (temp.getAbsolutePath().endsWith(".DS_Store") || !dr.findAllByPath(temp.getAbsolutePath()).isEmpty()) {
 
                 } else {
                     fileList.add(temp.getAbsolutePath());
@@ -122,14 +122,14 @@ public class FileService {
     }
 
     public String rollBack(String id) {
-        dr.delete(id);
+        dr.delete(Long.valueOf(id));
         return "success";
     }
 
     public String deleteForTrash(HttpServletRequest request, String path) {
         Trash trash = new Trash();
         trash.setDate(new Timestamp(new Date().getTime()));
-        trash.setPath(path);
+        trash.setPath(root + path);
         SecurityContextImpl securityContextImpl = (SecurityContextImpl) request
                 .getSession().getAttribute("SPRING_SECURITY_CONTEXT");
         Authentication authentication = securityContextImpl.getAuthentication();
@@ -383,13 +383,16 @@ public class FileService {
         ticketShare.setPath(url);
         ticketShare.setSpath(sPath);
         ticketShare.setSecret(secret);
+        if (getExpire(expireTime) != null) {
+            ticketShare.setExpire(new Timestamp(getExpire(expireTime)));
+        }
         ts.saveAndFlush(ticketShare);
         res.put("sPath", sPath);
         res.put("secret", secret);
         return res;
     }
 
-    public String sharePath(String url, HttpServletRequest request, String c) {
+    public String sharePath(String url, HttpServletRequest request, String expireTime) {
         if (isExist(url)) {
             return "fail";
         }
@@ -401,8 +404,24 @@ public class FileService {
         ticketShare.setStatus("0");
         ticketShare.setUser(username);
         ticketShare.setPath(url);
+        if (getExpire(expireTime) != null) {
+            ticketShare.setExpire(new Timestamp(getExpire(expireTime)));
+        }
         ts.saveAndFlush(ticketShare);
         return "=w=";
+    }
+
+    private Long getExpire(String expireTime) {
+        if (expireTime.equals("1")) { //有效期7天
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) + 7);
+            return calendar.getTime().getTime();
+        } else if (expireTime.equals("2")) { //有效期1天
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) + 1);
+            return calendar.getTime().getTime();
+        }
+        return null;
     }
 
     public Map<String, String> createDir(String url) {
@@ -649,5 +668,4 @@ public class FileService {
 
         return result;
     }
-
 }

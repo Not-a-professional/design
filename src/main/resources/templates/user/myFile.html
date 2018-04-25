@@ -24,16 +24,20 @@
                 <input type="radio" class="m-input-radio-blue"  value="1" name="radio" data-label="私密分享"/>
             </div>
             <input type="hidden" id="sharePath"/>
-            <div style="width: 50%">
-                <a role="button" onclick="generateShare()" class="btn btn-primary radius" id="gen" name="gen">生成公开分享</a>
-            </div>
-            <div style="width: 50%">
-                <select name="expireTime">
+            <div style="width: 70%;float: right">
+                <select id="expireTime" name="expireTime">
                     <option th:value="0">永久有效</option>
                     <option th:value="1">分享7天</option>
                     <option th:value="2">分享1天</option>
                 </select>
             </div>
+            <div style="width: 30%;float: left">
+                <a role="button" onclick="generateShare()" class="btn btn-primary radius" id="gen" name="gen">生成公开分享</a>
+            </div>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
             <p type="text" id="sPath" name="sPath"></p>
         </section>
         <footer>

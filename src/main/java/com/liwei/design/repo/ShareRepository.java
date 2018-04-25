@@ -27,4 +27,7 @@ public interface ShareRepository extends JpaRepository<Share, String> {
     @Transactional
     @Query("delete from Share s where s.path = ?1")
     void deleteByUrl(String url);
+
+    @Query("select s from Share s where datediff(NOW(), s.expire) = 0")
+    List<Share> findAllByExpire();
 }

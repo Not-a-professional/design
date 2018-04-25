@@ -107,6 +107,7 @@ public class AdminController {
         s.setUser(ts.getUser());
         s.setDate(new SimpleDateFormat("yyyyMMdd").format(new Date()));
         s.setDownload(0);
+        s.setExpire(ts.getExpire());
         String html = "分享申请" + ts.getPath() + "已通过！";
         if (ts.getSpath() != null) {
             s.setSecret(ts.getSecret());

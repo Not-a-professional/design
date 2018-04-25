@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "ticket_share")
@@ -37,4 +38,8 @@ public class ticketShare implements Serializable {
     @Setter
     @Getter
     private String status;
+
+    @Getter
+    @Setter
+    private Timestamp expire;
 }
