@@ -4,10 +4,11 @@ $(function init() {
     var node;
     if (suffix == 'jpg' || suffix == 'png') {
         node = document.createElement("img");
-        node.setAttribute("src","");// TODO
+        node.setAttribute("src","http://localhost:8080/file/getView" + pvPath);
     } else if (suffix == 'mp4') {
         node = document.createElement("video");
-        node.setAttribute("src", ""); //TODO
+        node.setAttribute("src", "http://localhost:8080/file/download?other&path=" + pvPath);
+        node.setAttribute("controls", "controls");
     }
     document.getElementById("pv").appendChild(node);
 });

@@ -82,26 +82,25 @@ function fillList(data) {
         aNode3.setAttribute("onclick", "Delete(\"" + data[i].substring(27) + "\")");
         var aText3 = document.createTextNode("删除 ");
         aNode3.appendChild(aText3);
-        var aNode4 = document.createElement("a");
-        aNode4.setAttribute("role", "button");
-        aNode4.setAttribute("onclick", "Edit(\"" + data[i].substring(27) + "\")");
-        var aText4 = document.createTextNode("编辑 ");
-        aNode4.appendChild(aText4);
         var index = data[i].lastIndexOf(".");
         var suffix = data[i].substring(index + 1);
         if (suffix == "jpg" || suffix == "png") {
             imgNode.setAttribute("src", "http://localhost:8080/file/getView" + data[i].substring(27));
+            imgNode.setAttribute("onclick", "Check(\"" + data[i].substring(27) + "\")");
             pNode2.appendChild(aNode1);
             pNode2.appendChild(aNode2);
             pNode2.appendChild(aNode3);
         } else if (suffix == "mp4") {
             imgNode.setAttribute("src", "http://localhost:8080/img/Youtube.png");
+            imgNode.setAttribute("onclick", "Check(\"" + data[i].substring(27) + "\")");
             pNode2.appendChild(aNode1);
             pNode2.appendChild(aNode2);
             pNode2.appendChild(aNode3);
         } else if (suffix == "txt") {
             imgNode.setAttribute("src", "http://localhost:8080/img/Notes.png");
-            pNode2.appendChild(aNode4);
+            imgNode.setAttribute("onclick", "Edit(\"" + data[i].substring(27) + "\")");
+            pNode2.appendChild(aNode1);
+            pNode2.appendChild(aNode2);
             pNode2.appendChild(aNode3);
         } else {
             imgNode.setAttribute("src", "http://localhost:8080/img/folder-videos.png");

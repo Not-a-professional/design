@@ -14,7 +14,6 @@ function sCheck() {
             if (data['res'] = "success") {
                 $("#body2").empty();
                 path = data['path'];
-                alert(data['path']);
                 rootPath = data['path'];
                 getListForsPath()
             } else {
@@ -63,12 +62,15 @@ function fillList(data) {
         var suffix = data[i].substring(index + 1);
         if (suffix == "jpg" || suffix == "png") {
             imgNode.setAttribute("src", "http://localhost:8080/file/getView" + data[i].substring(27));
+            imgNode.setAttribute("onclick", "Check(\"" + data[i].substring(27) + "\")");
             pNode2.appendChild(aNode1);
         } else if (suffix == "mp4") {
             imgNode.setAttribute("src", "http://localhost:8080/img/Youtube.png");
+            imgNode.setAttribute("onclick", "Check(\"" + data[i].substring(27) + "\")");
             pNode2.appendChild(aNode1);
         } else if (suffix == "txt") {
             imgNode.setAttribute("src", "http://localhost:8080/img/Notes.png");
+            pNode2.appendChild(aNode1);
         } else {
             imgNode.setAttribute("src", "http://localhost:8080/img/folder-videos.png");
             imgNode.setAttribute("onclick", "Enter(\"" + data[i].substring(27) + "\")");

@@ -53,8 +53,10 @@ function fillList(data) {
         var suffix = data[i].substring(index + 1);
         if (suffix == "jpg" || suffix == "png") {
             imgNode.setAttribute("src", "http://localhost:8080/file/getView" + data[i]);
+            imgNode.setAttribute("onclick", "Check(\"" + data[i] + "\")");
         } else if (suffix == "mp4") {
             imgNode.setAttribute("src", "http://localhost:8080/img/Youtube.png");
+            imgNode.setAttribute("onclick", "Check(\"" + data[i] + "\")");
         } else if (suffix == "txt") {
             imgNode.setAttribute("src", "http://localhost:8080/img/Notes.png");
         } else {
@@ -110,8 +112,10 @@ function fillsList(data) {
         var suffix = data[i].path.substring(index + 1);
         if (suffix == "jpg" || suffix == "png") {
             imgNode.setAttribute("src", "http://localhost:8080/file/getView" + data[i].path);
+            imgNode.setAttribute("onclick", "Check(\"" + data[i].path + "\")");
         } else if (suffix == "mp4") {
             imgNode.setAttribute("src", "http://localhost:8080/img/Youtube.png");
+            imgNode.setAttribute("onclick", "Check(\"" + data[i].path + "\")");
         } else if (suffix == "txt") {
             imgNode.setAttribute("src", "http://localhost:8080/img/Notes.png");
         } else {
