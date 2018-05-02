@@ -209,9 +209,10 @@ public class FileService {
             if (!file.getOriginalFilename().endsWith("jpg")
                 && !file.getOriginalFilename().endsWith("png")
                 && !file.getOriginalFilename().endsWith("mp4")
+                && !file.getOriginalFilename().endsWith("txt")
                 && !file.getOriginalFilename().endsWith(".DS_Store")) {
                 res.put("res", "fail");
-                res.put("msg", "目前只接受jpg,png,mp4格式文件上传！");
+                res.put("msg", "目前只接受jpg,png,mp4,txt格式文件上传！");
                 return res;
             }
             sizeMB = sizeMB + file.getBytes().length / 1024.00;

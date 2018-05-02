@@ -42,6 +42,22 @@ public class UserController {
         return trash;
     }
 
+    @RequestMapping("/pic_vid")
+    public ModelAndView pictureVideo(String path) {
+        ModelAndView mav = new ModelAndView("/user/pic_vid");
+        mav.addObject("title","预览");
+        mav.addObject("pvPath", path);
+        return mav;
+    }
+
+    @RequestMapping("/editor")
+    public ModelAndView editor(String path) {
+        ModelAndView editor = new ModelAndView("user/editor");
+        editor.addObject("title", "云笔记");
+        editor.addObject("editorPath", path);
+        return editor;
+    }
+
     @RequestMapping("/getTrashList")
     @ResponseBody
     public Map<String, Object> getTrashList(HttpServletRequest request, Pageable pageable) {
@@ -56,14 +72,6 @@ public class UserController {
     @ResponseBody
     public List<String> getFirend(HttpServletRequest request) {
         return us.getFriend(request);
-    }
-
-    @RequestMapping("/editor")
-    public ModelAndView editor(String path) {
-        ModelAndView editor = new ModelAndView("user/editor");
-        editor.addObject("title", "云笔记");
-        editor.addObject("editorPath", path);
-        return editor;
     }
 
     @RequestMapping("/getHotShare")

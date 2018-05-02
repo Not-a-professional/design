@@ -28,7 +28,7 @@ $(function init() {
     $("#uploadFile").fileinput({
         language: 'zh', //设置语言
         uploadUrl: "/file/upload", //上传的地址
-        allowedFileExtensions: ['jpg','png','mp4'],//接收的文件后缀
+        allowedFileExtensions: ['jpg','png','mp4','txt'],//接收的文件后缀
         uploadAsync: true, //默认异步上传
         showUpload: false, //是否显示上传按钮
 

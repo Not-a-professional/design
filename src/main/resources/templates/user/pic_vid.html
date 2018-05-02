@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <object th:replace="common::head" th:remove="tag"></object>
+</head>
+<body data-material-theme="bluegrey" class="material-design">
+<div class="material-design-layout">
+    <div th:replace="common::about"></div>
+    <div th:replace="common::fileinput"></div>
+    <div th:replace="common::dirinput"></div>
+    <div th:replace="common::navigation"></div>
+    <div th:replace="common::siderleft"></div>
+    <div th:replace="common::siderright"></div>
+    <div class="material-container">
+        <div class="panel bit-1">
+            <div class="panel-body" id="pv">
+
+            </div>
+        </div>
+    </div>
+</div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var pvPath = [[${pvPath}]];
+    /*]]>*/
+</script>
+<script th:src="@{/js/home/home.js}"></script>
+<script th:src="@{/js/user/pic_vid.js}"></script>
+</body>
+</html>
