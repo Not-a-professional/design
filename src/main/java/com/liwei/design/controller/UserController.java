@@ -106,10 +106,11 @@ public class UserController {
 
     @RequestMapping("/htmlToImage")
     @ResponseBody
-    public void htmlToImage(String path, HttpServletResponse response) throws IOException {
+    public void htmlToImage(String path, HttpServletResponse response) throws IOException, InterruptedException {
         HtmlImageGenerator generator = new HtmlImageGenerator();
         try {
             generator.loadHtml((String) fileService.getEditorHtml(path).get("res"));
+            Thread.sleep(100);
         } catch (IOException e) {
             log.debug(e);
         }
@@ -118,6 +119,7 @@ public class UserController {
         response.setDateHeader("Expires", 0);
         OutputStream os = response.getOutputStream();
         BufferedImage image = generator.getBufferedImage();
+        Thread.sleep(200);
         ImageIO.write(image, "jpeg", os);
         os.close();
     }
