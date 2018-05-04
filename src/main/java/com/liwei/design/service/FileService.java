@@ -467,7 +467,6 @@ public class FileService {
             String str;
             while ((str = br.readLine()) != null) {
                 sb.append(str);
-                sb.append("\r\n");
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

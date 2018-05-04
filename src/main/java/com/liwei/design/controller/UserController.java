@@ -2,7 +2,10 @@ package com.liwei.design.controller;
 
 import com.liwei.design.model.Trash;
 import com.liwei.design.othermodel.hotShare;
+import com.liwei.design.service.FileService;
 import com.liwei.design.service.UserService;
+import gui.ava.html.image.generator.HtmlImageGenerator;
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -10,16 +13,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Log4j
 @Controller
 @RequestMapping("/user")
 public class UserController {
     @Autowired
     private UserService us;
+    @Autowired
+    private FileService fileService;
 
     @RequestMapping("/file")
     public ModelAndView file() {
@@ -91,5 +102,23 @@ public class UserController {
     @ResponseBody
     public Map<String, String> volumeReason(HttpServletRequest request, String reason) {
         return us.volumeReason(request, reason);
+    }
+
+    @RequestMapping("/htmlToImage")
+    @ResponseBody
+    public void htmlToImage(String path, HttpServletResponse response) throws IOException {
+        HtmlImageGenerator generator = new HtmlImageGenerator();
+        try {
+            generator.loadHtml((String) fileService.getEditorHtml(path).get("res"));
+        } catch (IOException e) {
+            log.debug(e);
+        }
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setDateHeader("Expires", 0);
+        OutputStream os = response.getOutputStream();
+        BufferedImage image = generator.getBufferedImage();
+        ImageIO.write(image, "jpeg", os);
+        os.close();
     }
 }
