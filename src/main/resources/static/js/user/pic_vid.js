@@ -33,7 +33,7 @@ $(function init() {
         //可以按照自己的需求，对context的参数修改,translate指的是偏移量
         var context = canvas2.getContext("2d");
         context.scale(2,2);
-        html2canvas([temp.get(0)],{canvas:canvas2}).then(function (canvas) {
+        html2canvas(temp.get(0),{canvas:canvas2}).then(function (canvas) {
                 var pngUrl = canvas.toDataURL("image/png");
                 node = document.createElement("img");
                 node.setAttribute("scr", pngUrl);
