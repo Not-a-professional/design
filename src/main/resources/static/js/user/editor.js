@@ -6,8 +6,8 @@ $(function init() {
         'redo',  // 重复
         'image' //上传图片
     ];
-    editor.customConfig.uploadImgShowBase64 = true; // 使用 base64 保存图片
-    editor.customConfig.showLinkImg = false; // 隐藏“网络图片”tab
+    // editor.customConfig.uploadImgShowBase64 = true; // 使用 base64 保存图片
+    // editor.customConfig.showLinkImg = false; // 隐藏“网络图片”tab
     editor.customConfig.uploadImgMaxSize = 1024 * 1024; // 将图片大小限制为 1M
     editor.customConfig.uploadImgMaxLength = 1; // 限制一次最多上传 1 张图片
     getEditorHtml();

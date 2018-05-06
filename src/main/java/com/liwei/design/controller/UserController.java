@@ -4,7 +4,6 @@ import com.liwei.design.model.Trash;
 import com.liwei.design.othermodel.hotShare;
 import com.liwei.design.service.FileService;
 import com.liwei.design.service.UserService;
-import gui.ava.html.image.generator.HtmlImageGenerator;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import gui.ava.html.image.generator.HtmlImageGenerator;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -119,8 +120,8 @@ public class UserController {
         response.setDateHeader("Expires", 0);
         OutputStream os = response.getOutputStream();
         BufferedImage image = generator.getBufferedImage();
-        Thread.sleep(200);
-        ImageIO.write(image, "jpeg", os);
+        Thread.sleep(2000);
+        ImageIO.write(image, "png", os);
         os.close();
     }
 }

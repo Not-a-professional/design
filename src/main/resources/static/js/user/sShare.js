@@ -70,6 +70,7 @@ function fillList(data) {
             pNode2.appendChild(aNode1);
         } else if (suffix == "txt") {
             imgNode.setAttribute("src", "http://localhost:8080/img/Notes.png");
+            imgNode.setAttribute("onclick", "Check(\"" + data[i] + "\")");
             pNode2.appendChild(aNode1);
         } else {
             imgNode.setAttribute("src", "http://localhost:8080/img/folder-videos.png");

@@ -118,6 +118,7 @@ function fillsList(data) {
             imgNode.setAttribute("onclick", "Check(\"" + data[i].path + "\")");
         } else if (suffix == "txt") {
             imgNode.setAttribute("src", "http://localhost:8080/img/Notes.png");
+            imgNode.setAttribute("onclick", "Check(\"" + data[i].path + "\")");
         } else {
             imgNode.setAttribute("src", "http://localhost:8080/img/folder-videos.png");
         }

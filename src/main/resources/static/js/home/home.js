@@ -283,5 +283,5 @@ function uploadDir() {
 }
 
 function Check(e) {
-    window.open("http:localhost:8080/user/pic_vid?path=" + e);
+    window.open("http://localhost:8080/user/pic_vid?path=" + e);
 }

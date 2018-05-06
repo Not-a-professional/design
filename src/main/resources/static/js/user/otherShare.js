@@ -49,6 +49,7 @@ function fillList(data) {
             imgNode.setAttribute("onclick", "Check(\"" + data[i] + "\")");
         } else if (suffix == "txt") {
             imgNode.setAttribute("src", "http://localhost:8080/img/Notes.png");
+            imgNode.setAttribute("onclick", "Check(\"" + data[i] + "\")");
         }else {
             imgNode.setAttribute("src", "http://localhost:8080/img/folder-videos.png");
             aNode1.setAttribute("onclick", "OtherDownloadZip(\"" + data[i] + "\")");
