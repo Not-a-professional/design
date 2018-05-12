@@ -120,7 +120,7 @@ public class UserController {
         response.setDateHeader("Expires", 0);
         OutputStream os = response.getOutputStream();
         BufferedImage image = generator.getBufferedImage();
-        Thread.sleep(2000);
+        Thread.sleep(200);
         ImageIO.write(image, "png", os);
         os.close();
     }
