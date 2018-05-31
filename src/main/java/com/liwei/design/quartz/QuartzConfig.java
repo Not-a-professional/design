@@ -35,7 +35,6 @@ public class QuartzConfig {
         trigger.setCronExpression("0 30 9 * * ?");
         trigger.setName("deleteTrigger");// trigger的name
         return trigger;
-
     }
 
     @Bean("deleteShareDetail")

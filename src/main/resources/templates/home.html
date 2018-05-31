@@ -78,8 +78,13 @@
                 var suffix = data[i].url.substring(index + 1);
                 if (suffix == "jpg" || suffix == "png") {
                     imgNode.setAttribute("src", "http://localhost:8080/file/getView" + data[i].url);
+                    imgNode.setAttribute("onclick", "Check(\"" + data[i].url + "\")");
                 } else if (suffix == "mp4") {
                     imgNode.setAttribute("src", "http://localhost:8080/img/Youtube.png");
+                    imgNode.setAttribute("onclick", "Check(\"" + data[i].url + "\")");
+                } else if (suffix == "txt"){
+                    imgNode.setAttribute("src", "http://localhost:8080/img/Notes.png");
+                    imgNode.setAttribute("onclick", "Check(\"" + data[i].url + "\")");
                 } else {
                     imgNode.setAttribute("src", "http://localhost:8080/img/folder-videos.png");
                     aNode1.setAttribute("onclick", "OtherDownloadZip(\"" + data[i].url + "\")");

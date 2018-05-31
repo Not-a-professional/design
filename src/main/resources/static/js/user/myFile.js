@@ -176,6 +176,7 @@ function Share(e) {
 }
 
 function generateShare() {
+    $("#sPath").empty();
     var value = $("input[name='radio']:checked").val();
     var expireTime = document.getElementById("expireTime").value;
     var sharePath = $("#sharePath").val();

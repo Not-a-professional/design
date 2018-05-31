@@ -82,13 +82,13 @@
             <li sec:authorize="hasAuthority('ROLE_ADMIN')">
                 <a th:href="@{/admin/ticketShare}" th:class="material-btn-flat-white">
                     <span class="glyphicon glyphicon-tasks"></span>
-                    分享申请
+                    分享审核
                 </a>
             </li>
             <li sec:authorize="hasAuthority('ROLE_ADMIN')">
                 <a th:href="@{/admin/ticketVolume}" th:class="material-btn-flat-white">
                     <span class="glyphicon glyphicon-bookmark"></span>
-                    容量申请
+                    容量审核
                 </a>
             </li>
             <li>

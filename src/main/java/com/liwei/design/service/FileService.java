@@ -571,7 +571,6 @@ public class FileService {
                 }
             }
         }
-
     }
 
     private static void compress(File sourceFile, ZipOutputStream zos, String name,
@@ -586,7 +585,6 @@ public class FileService {
                 while ((len = in.read(buf)) != -1) {
                     zos.write(buf, 0, len);
                 }
-                // Complete the entry
                 zos.closeEntry();
             }
         } else {
@@ -594,12 +592,9 @@ public class FileService {
             if(listFiles == null || listFiles.length == 0){
                 // 需要保留原来的文件结构时,需要对空文件夹进行处理
                 if(KeepDirStructure){
-                    // 空文件夹的处理
                     zos.putNextEntry(new ZipEntry(name + "/"));
-                    // 没有文件，不需要文件的copy
                     zos.closeEntry();
                 }
-
             }else {
                 for (File file : listFiles) {
                     // 判断是否需要保留原来的文件结构
@@ -610,7 +605,6 @@ public class FileService {
                     } else {
                         compress(file, zos, file.getName(),KeepDirStructure);
                     }
-
                 }
             }
         }

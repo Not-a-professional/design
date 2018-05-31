@@ -1,15 +1,12 @@
 package com.liwei.design;
 
-import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.code.kaptcha.servlet.KaptchaServlet;
-import com.google.code.kaptcha.util.Config;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import javax.servlet.ServletException;
-import java.util.Properties;
 
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
